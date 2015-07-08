@@ -7,7 +7,7 @@ var port = process.env.PORT || 8080
 function route_alexa(req, res) {
    console.log(req);
    if(req.body == null) {
-        res.jsonp({message: 'no post body found'});
+        return res.jsonp({message: 'no post body found'});
    }
    // Grab the necessary values from the Echo request.
    alexa.launchRequest(req.body);
