@@ -17,7 +17,8 @@ function route_alexa(req, res) {
    alexa.response('Hello World', {
      title: 'Heroku',
      subtitle: 'Hello World',
-     content: 'Hello World!'
+     content: '<h1>Hello World!</h1>',
+     shouldEndSession: true
    }, false, function (error, response) {
      if(error) {
        console.log({message: error});
