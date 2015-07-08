@@ -27,7 +27,7 @@ function route_alexa_begin(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   send_alexa_response('Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)'}, false)
+   send_alexa_response('Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
 };
 
 function route_alexa_intent(req, res) {
@@ -47,14 +47,14 @@ function route_alexa_intent(req, res) {
                 speech += records[i].Subject;
               }
 
-              send_alexa_response(speech, 'Salesforce', 'Get Latest Cases', speech}, true);
+              send_alexa_response(speech, 'Salesforce', 'Get Latest Cases', speech, true);
 
             }
           });
    }
 
    //no inent known
-   send_alexa_response('Connected to Salesforce', 'Salesforce', 'Error', 'No intent found'}, false)
+   send_alexa_response('Connected to Salesforce', 'Salesforce', 'Error', 'No intent found', false)
 
    
 };
