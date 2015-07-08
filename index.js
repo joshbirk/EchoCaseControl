@@ -29,7 +29,7 @@ function route_alexa(req, res) {
          });
       }
 
-       if(req.body.intentName == 'GetLatestCase') {
+    if(req.body.intentName == 'GetLatestCase') {
          alexa.response('Here is your latest case', {
            title: 'Heroku',
            subtitle: 'Latest Case',
@@ -43,6 +43,19 @@ function route_alexa(req, res) {
            return res.jsonp(response);
          });
       }
+
+    alexa.response('Hello World', {
+           title: 'Heroku',
+           subtitle: 'Hello World',
+           content: 'Hello',
+           shouldEndSession: true
+         }, false, function (error, response) {
+           if(error) {
+             console.log({message: error});
+             return res.status(400).jsonp({message: error});
+           }
+           return res.jsonp(response);
+         });
 };
 
 
