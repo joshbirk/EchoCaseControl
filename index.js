@@ -53,9 +53,10 @@ function route_alexa_intent(req, res) {
 
                     var speech = 'Here are your latest cases. ';
                     for(var i = 0; i < result.records.length; i++) {
+                      console.log
                       speech += i;
                       speech += ' ';
-                      speech += result.records[i]._fields.Subject;
+                      speech += result.records[i]._fields.subject;
                     }
 
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
