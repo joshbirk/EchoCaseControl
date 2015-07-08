@@ -5,6 +5,8 @@ var port = process.env.PORT || 8080
 
 // Route request and response ends up here.
 function route_alexa(req, res) {
+   console.log(req);
+   
    // Grab the necessary values from the Echo request.
    alexa.launchRequest(req.body);
    // Store the session and/or user data
