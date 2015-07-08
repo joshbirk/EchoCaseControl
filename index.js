@@ -60,7 +60,8 @@ function route_alexa_intent(req, res) {
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
 
               }
-          });
+          }
+      });
    } else {
       send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
    }
