@@ -57,9 +57,11 @@ function route_alexa_intent(req, res) {
                       speech += i+1;
                       speech += '. .';
                       speech += result.records[i]._fields.subject;
+                      speech += '. .';
+                      
                     }
 
-                    send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
+                    send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
 
               }
           }
