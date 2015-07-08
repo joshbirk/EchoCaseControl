@@ -27,7 +27,7 @@ function route_alexa(req, res) {
 };
 
 
-app.get('/echo', function (req, res) {
+app.post('/echo', function (req, res) {
   route_alexa(req,res);
 });
 
