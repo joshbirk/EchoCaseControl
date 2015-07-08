@@ -36,9 +36,12 @@ function route_alexa_intent(req, res) {
    }
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'GetLatestCases') {
-      org.query({ query: 'SELECT ID, Subject FROM Cases LIMIT 5 ORDERBY CreationDate ASC', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject FROM Cases ORDERBY CreationDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, records){
-            if(err) throw err;
+            if(err) {
+              console.log(err);
+              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error, check logs', true);
+            }
             else {
               var speech = 'Here are your five latest cases. ';
               for(var i = 0; i < records.length; i++) {
