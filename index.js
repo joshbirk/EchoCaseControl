@@ -36,29 +36,34 @@ function route_alexa_intent(req, res) {
    }
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'GetLatestCases') {
+   
       org.query({ query: 'SELECT ID, Subject FROM Cases ORDERBY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, records){
             if(err) {
               console.log(err);
-              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error, check logs', true);
+              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
-              var speech = 'Here are your five latest cases. ';
-              for(var i = 0; i < records.length; i++) {
-                speech += i;
-                speech += ' ';
-                speech += records[i].Subject;
+                if(records.length == 0) {
+
+                    send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
+
+                } else {
+
+                    var speech = 'Here are your latest cases. ';
+                    for(var i = 0; i < records.length; i++) {
+                      speech += i;
+                      speech += ' ';
+                      speech += records[i].Subject;
+                    }
+
+                    send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
+
               }
-
-              send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
-
-            }
           });
+   } else {
+      send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
    }
-
-   //no intent known
-   send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
-
    
 };
 
