@@ -4,7 +4,7 @@ var app = express();
 var port = process.env.PORT || 8080
 
 // Route request and response ends up here.
-route_alexa = function (req, res) {
+function route_alexa(req, res) {
    // Grab the necessary values from the Echo request.
    alexa.launchRequest(req.body);
    // Store the session and/or user data
@@ -24,7 +24,7 @@ route_alexa = function (req, res) {
 
 
 app.get('/', function (req, res) {
-  route_alex(req,res);
+  route_alexa(req,res);
 });
 
 var server = app.listen(port, function () {
