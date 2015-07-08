@@ -8,11 +8,12 @@ function route_alexa(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
+   console.log('forming alexa response');
    alexa.launchRequest(req.body);
-   alexa.response('Welcome to my app, you can say things like this or that', {
-     title: 'Launch Card Title',
-     subtitle: 'Launch Card Subtitle',
-     content: 'Launch Card Content'
+   alexa.response('Hello World', {
+     title: 'Heroku',
+     subtitle: 'Hello World',
+     content: 'Hello World!'
    }, false, function (error, response) {
      if(error) {
        console.log({message: error});
