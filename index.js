@@ -6,7 +6,9 @@ var port = process.env.PORT || 8080
 // Route request and response ends up here.
 function route_alexa(req, res) {
    console.log(req);
-   
+   if(req.body == null) {
+        res.jsonp({message: 'no post body found'});
+   }
    // Grab the necessary values from the Echo request.
    alexa.launchRequest(req.body);
    // Store the session and/or user data
@@ -31,9 +33,6 @@ app.get('/', function (req, res) {
 
 var server = app.listen(port, function () {
 
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Heroku Echo Hello World running on '+port);
 
 });
