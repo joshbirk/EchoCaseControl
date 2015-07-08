@@ -1,0 +1,7 @@
+{
+  "name": "heroku-echo-demo",
+  "version": "0.0.1",
+  "engines": {
+    "node": "*"
+  }
+}
