@@ -36,7 +36,7 @@ function route_alexa_intent(req, res) {
    }
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'GetLatestCases') {
-      org.query({ query: 'SELECT ID, Subject FROM Cases LIMIT 5 ORDERY CreationDate ASC', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject FROM Cases LIMIT 5 ORDER BY CreationDate ASC', oauth: org.oauth }, 
         function(err, records){
             if(err) throw err;
             else {
@@ -53,8 +53,8 @@ function route_alexa_intent(req, res) {
           });
    }
 
-   //no inent known
-   send_alexa_response(res, 'Connected to Salesforce', 'Salesforce', 'Error', 'No intent found', false)
+   //no intent known
+   send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
 
    
 };
