@@ -54,10 +54,10 @@ function route_alexa_intent(req, res) {
                     var speech = 'Here are your latest cases. ';
                     for(var i = 0; i < result.records.length; i++) {
                       console.log
+                      speech += 'Case. .'
                       speech += i+1;
                       speech += '. .';
                       speech += result.records[i]._fields.subject;
-                      speech += '. .';
                       
                     }
 
