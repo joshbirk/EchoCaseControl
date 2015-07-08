@@ -27,7 +27,7 @@ function route_alexa_begin(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   send_alexa_response('Connected to Salesforce', {}, false)
+   send_alexa_response('Connected to Salesforce', {title:'Salesforce',subtitle:'Connection Attempt',content:'Logged In (Single User)'}, false)
 };
 
 function route_alexa_intent(req, res) {
@@ -47,18 +47,25 @@ function route_alexa_intent(req, res) {
                 speech += records[i].Subject;
               }
 
-              send_alexa_response(speech, {}, true);
+              send_alexa_response(speech, {title:'Salesforce',subtitle:'Get Latest Cases',content:speech}, true);
 
             }
           });
-
-
    }
+
+   //no inent known
+   send_alexa_response('Connected to Salesforce', {title:'Salesforce',subtitle:'Error',content:'No intent found'}, false)
+
    
 };
 
-function send_alexa_response(speech, card, endSession) {
-    alexa.response(speech, card, endSession, function (error, response) {
+function send_alexa_response(speech, title, subtitle, content, endSession) {
+    alexa.response(speech, 
+           {
+            title: title,
+            subtitle: subtitle,
+            content: content
+           }, endSession, function (error, response) {
            if(error) {
              console.log({message: error});
              return res.status(400).jsonp({message: error});
