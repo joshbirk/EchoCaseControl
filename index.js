@@ -6,6 +6,20 @@ var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser());
 
+var nforce = require('nforce');
+var org = nforce.createConnection({
+  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
+  clientSecret: '1308854095208667500',
+  redirectUri: 'imp://nothinghere',
+  apiVersion: 'v30.0',  // optional, defaults to current salesforce API version
+  environment: 'production',  // optional, salesforce 'sandbox' or 'production', production default
+  mode: 'single' // optional, 'single' or 'multi' user mode, multi default
+});
+
+
+org.authenticate({ username: 'josh@light.test', password: 'test1234'}, function(err, resp){
+  if(!err) console.log('Cached Token: ' + org.oauth.access_token)
+});
 
 // Route request and response ends up here.
 function route_alexa_begin(req, res) {
@@ -13,18 +27,7 @@ function route_alexa_begin(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   alexa.response('Hello World', {
-           title: 'Heroku',
-           subtitle: 'Hello World',
-           content: 'Hello',
-           shouldEndSession: false
-         }, false, function (error, response) {
-           if(error) {
-             console.log({message: error});
-             return res.status(400).jsonp({message: error});
-           }
-           return res.jsonp(response);
-         });
+   send_alexa_response('Connected to Salesforce', null, false)
 };
 
 function route_alexa_intent(req, res) {
@@ -32,18 +35,37 @@ function route_alexa_intent(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.intentRequest(req.body);
-   alexa.response('I will get right on that', {
-           title: 'Heroku',
-           subtitle: 'Hello World',
-           content: alexa.intentName,
-         }, true, function (error, response) {
+   if(alexa.intentName == 'GetLatestCases') {
+      org.query({ query: 'SELECT ID, Subject FROM Cases LIMIT 5 ORDERY CreationDate ASC', oauth: oauth }, 
+        function(err, records){
+            if(err) throw err;
+            else {
+              var speech = 'Here are your five latest cases. ';
+              for(var i = 0; i < records.length; i++) {
+                speech += i;
+                speech += ' ';
+                speech += records[i].Subject;
+              }
+
+              send_alexa_response(speech, null, true);
+
+            }
+          });
+
+
+   }
+   
+};
+
+function send_alexa_response(speech, card, endSession) {
+    alexa.response(speech, card, endSession, function (error, response) {
            if(error) {
              console.log({message: error});
              return res.status(400).jsonp({message: error});
            }
            return res.jsonp(response);
          });
-};
+}
 
 
 app.get('/', function (req, res) {
