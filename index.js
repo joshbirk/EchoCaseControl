@@ -5,9 +5,9 @@ var port = process.env.PORT || 8080
 
 // Route request and response ends up here.
 function route_alexa(req, res) {
-   if(req.body == null) {
-        return res.jsonp({message: 'no post body found'});
-   }
+//   if(req.body == null) {
+//        return res.jsonp({message: 'no post body found'});
+//   }
    console.log('forming alexa response');
    alexa.launchRequest(req.body);
    alexa.response('Hello World', {
