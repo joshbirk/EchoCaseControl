@@ -12,7 +12,7 @@ function route_alexa(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   console.log('forming alexa response');
+   console.log('forming alexa response for '+req.body.intentName);
    alexa.launchRequest(req.body);
    if(req.body.intentName == 'GetLatestCases') {
          alexa.response('I am get your latest cases', {
