@@ -38,24 +38,24 @@ function route_alexa_intent(req, res) {
    if(alexa.intentName == 'GetLatestCases') {
    
       org.query({ query: 'SELECT ID, Subject FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
-        function(err, records){
+        function(err, result){
             if(err) {
               console.log(err);
               send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
-                console.log(records);
-                if(records.length == 0) {
+                console.log(result.records);
+                if(result.records.length == 0) {
 
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
 
                 } else {
 
                     var speech = 'Here are your latest cases. ';
-                    for(var i = 0; i < records.length; i++) {
+                    for(var i = 0; i < result.records.length; i++) {
                       speech += i;
                       speech += ' ';
-                      speech += records[i].Subject;
+                      speech += result.records[i]._fields.Subject;
                     }
 
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', speech, true);
