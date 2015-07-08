@@ -35,7 +35,7 @@ function route_alexa_intent(req, res) {
    alexa.response('I will get right on that', {
            title: 'Heroku',
            subtitle: 'Hello World',
-           content: alexa.intentName;,
+           content: alexa.intentName,
          }, true, function (error, response) {
            if(error) {
              console.log({message: error});
