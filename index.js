@@ -44,6 +44,7 @@ function route_alexa_intent(req, res) {
               send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
+                console.log(records);
                 if(records.length == 0) {
 
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
