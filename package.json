@@ -3,5 +3,9 @@
   "version": "0.0.1",
   "engines": {
     "node": "*"
+  },
+  "dependencies": {
+    "alexa-nodekit": "^1.0.2",
+    "express": "^4.13.1"
   }
 }

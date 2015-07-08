@@ -1,72 +1,37 @@
-// Alexa SDK for JavaScript v1.0.00
-// Copyright (c) 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved. Use is subject to license terms.
+var alexa = require('alexa-nodekit');
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 8080
 
-/**
- * This simple sample has no external dependencies or session management, and shows the most basic
- * example of how to create a Lambda function for handling Alexa Skill requests.
- *
- * Examples:
- * One-shot model:
- *  User: "Alexa, tell Greeter to say hello"
- *  Alexa: "Hello World!"
- */
+// Route request and response ends up here.
+route_alexa = function (req, res) {
+   // Grab the necessary values from the Echo request.
+   alexa.launchRequest(req.body);
+   // Store the session and/or user data
 
-/**
- * App ID for the skill
- */
-var APP_ID = "84f930fa-dbb1-4681-96cc-96d46a5e9d30"; //replace with "amzn1.echo-sdk-ams.app.[your-unique-value-here]";
-
-/**
- * The AlexaSkill prototype and helper functions
- */
-var AlexaSkill = require('./AlexaSkill');
-
-/**
- * HelloWorld is a child of AlexaSkill.
- * To read more about inheritance in JavaScript, see the link below.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
- */
-var HelloWorld = function () {
-    AlexaSkill.call(this, APP_ID);
+   // Respond to the Echo
+   alexa.response('Welcome to my app, you can say things like this or that', {
+     title: 'Launch Card Title',
+     subtitle: 'Launch Card Subtitle',
+     content: 'Launch Card Content'
+   }, false, function (error, response) {
+     if(error) {
+       return res.status(400).jsonp({message: error});
+     }
+     return res.jsonp(response);
+   });
 };
 
-// Extend AlexaSkill
-HelloWorld.prototype = Object.create(AlexaSkill.prototype);
-HelloWorld.prototype.constructor = HelloWorld;
 
-HelloWorld.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
-    console.log("HelloWorld onSessionStarted requestId: " + sessionStartedRequest.requestId
-        + ", sessionId: " + session.sessionId);
-    // any initialization logic goes here
-};
+app.get('/', function (req, res) {
+  route_alex(req,res);
+});
 
-HelloWorld.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
-    console.log("HelloWorld onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
-    var speechOutput = "Welcome to the Alexa Skills Kit, you can say hello";
-    response.ask(speechOutput);
-};
+var server = app.listen(port, function () {
 
-HelloWorld.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
-    console.log("HelloWorld onSessionEnded requestId: " + sessionEndedRequest.requestId
-        + ", sessionId: " + session.sessionId);
-    // any cleanup logic goes here
-};
+  var host = server.address().address;
+  var port = server.address().port;
 
-HelloWorld.prototype.intentHandlers = {
-    // register custom intent handlers
-    HelloWorldIntent: function (intent, session, response) {
-        response.tellWithCard("Hello World!", "Greeter", "Hello World!");
-    },
-    HelpIntent: function (intent, session, response) {
-        response.ask("You can say hello to me!");
-    }
-};
+  console.log('Example app listening at http://%s:%s', host, port);
 
-// Create the handler that responds to the Alexa Request.
-exports.handler = function (event, context) {
-    // Create an instance of the HelloWorld skill.
-    var helloWorld = new HelloWorld();
-    helloWorld.execute(event, context);
-};
-
+});
