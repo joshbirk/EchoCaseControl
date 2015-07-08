@@ -27,7 +27,7 @@ function route_alexa_begin(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   send_alexa_response('Connected to Salesforce', null, false)
+   send_alexa_response('Connected to Salesforce', {}, false)
 };
 
 function route_alexa_intent(req, res) {
@@ -47,7 +47,7 @@ function route_alexa_intent(req, res) {
                 speech += records[i].Subject;
               }
 
-              send_alexa_response(speech, null, true);
+              send_alexa_response(speech, {}, true);
 
             }
           });
