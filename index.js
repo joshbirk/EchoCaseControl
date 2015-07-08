@@ -37,7 +37,7 @@ function route_alexa_intent(req, res) {
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'GetLatestCases') {
    
-      org.query({ query: 'SELECT ID, Subject FROM Cases ORDERBY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, records){
             if(err) {
               console.log(err);
