@@ -4,14 +4,14 @@ var port = process.env.PORT || 8080
 var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser());
 
 
 // Route request and response ends up here.
 function route_alexa(req, res) {
-//   if(req.body == null) {
-//        return res.jsonp({message: 'no post body found'});
-//   }
+   if(req.body == null) {
+        return res.jsonp({message: 'no post body found'});
+   }
    console.log('forming alexa response');
    alexa.launchRequest(req.body);
    alexa.response('Hello World', {
@@ -33,6 +33,9 @@ app.get('/', function (req, res) {
 });
 
 app.post('/echo', function (req, res) {
+  if(req.body == null) {
+        console.log("WARN: No Post Body Detected");
+   }
   route_alexa(req,res);
 });
 
