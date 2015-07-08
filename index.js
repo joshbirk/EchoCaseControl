@@ -59,7 +59,7 @@ function route_alexa_intent(req, res) {
                       speech += '. .';
                       speech += result.records[i]._fields.subject;
                       speech += '. .';
-                      speech += 'Next case,';
+                      if(i != result.records.length-1) {speech += 'Next case,'};
                     }
 
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
