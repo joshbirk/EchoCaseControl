@@ -13,9 +13,11 @@ function route_alexa(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   console.log('forming alexa response for '+alexa.intentRequest.intentName);
    
-   if(alexa.intentRequest.intentName == 'GetLatestCases') {
+   var intentRequest = alexa.intentRequest(req.body);
+   console.log('forming alexa response for '+intentRequest.intentName);
+   
+   if(intentRequest.intentName == 'GetLatestCases') {
          alexa.response('I am get your latest cases', {
            title: 'Heroku',
            subtitle: 'Latest Cases',
@@ -30,7 +32,7 @@ function route_alexa(req, res) {
          });
       }
 
-    if(alexa.intentRequest.intentName == 'GetLatestCase') {
+    if(intentRequest.intentName == 'GetLatestCase') {
          alexa.response('Here is your latest case', {
            title: 'Heroku',
            subtitle: 'Latest Case',
