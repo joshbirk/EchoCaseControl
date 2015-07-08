@@ -13,7 +13,10 @@ function route_alexa(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   
+   console.log(req.request);
+
+   return res.jsonp({message: 'error aborted'});
+
    var intentRequest = alexa.intentRequest(req.body);
    console.log('forming alexa response for '+intentRequest.intentName);
    
