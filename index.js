@@ -8,54 +8,35 @@ app.use(bodyParser());
 
 
 // Route request and response ends up here.
-function route_alexa(req, res) {
+function route_alexa_begin(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   console.log(req.request);
-
-   return res.jsonp({message: 'error aborted'});
-
-   var intentRequest = alexa.intentRequest(req.body);
-   console.log('forming alexa response for '+intentRequest.intentName);
-   
-   if(intentRequest.intentName == 'GetLatestCases') {
-         alexa.response('I am get your latest cases', {
-           title: 'Heroku',
-           subtitle: 'Latest Cases',
-           content: 'List goes here',
-           shouldEndSession: true
-         }, false, function (error, response) {
-           if(error) {
-             console.log({message: error});
-             return res.status(400).jsonp({message: error});
-           }
-           return res.jsonp(response);
-         });
-      }
-
-    if(intentRequest.intentName == 'GetLatestCase') {
-         alexa.response('Here is your latest case', {
-           title: 'Heroku',
-           subtitle: 'Latest Case',
-           content: 'Information goes here',
-           shouldEndSession: true
-         }, false, function (error, response) {
-           if(error) {
-             console.log({message: error});
-             return res.status(400).jsonp({message: error});
-           }
-           return res.jsonp(response);
-         });
-      }
-
-    alexa.response('Hello World', {
+   alexa.response('Hello World', {
            title: 'Heroku',
            subtitle: 'Hello World',
            content: 'Hello',
-           shouldEndSession: true
+           shouldEndSession: false
          }, false, function (error, response) {
+           if(error) {
+             console.log({message: error});
+             return res.status(400).jsonp({message: error});
+           }
+           return res.jsonp(response);
+         });
+};
+
+function route_alexa_intent(req, res) {
+   if(req.body == null) {
+        return res.jsonp({message: 'no post body found'});
+   }
+   alexa.intentRequest(req.body);
+   alexa.response('I will get right on that', {
+           title: 'Heroku',
+           subtitle: 'Hello World',
+           content: alexa.intentName;,
+         }, true, function (error, response) {
            if(error) {
              console.log({message: error});
              return res.status(400).jsonp({message: error});
@@ -73,7 +54,11 @@ app.post('/echo', function (req, res) {
   if(req.body == null) {
         console.log("WARN: No Post Body Detected");
    }
-  route_alexa(req,res);
+  if(req.body.request.intent == null) {
+    route_alexa_begin(req,res);
+  } else {
+    route_alexa_intent(req,res);
+  }
 });
 
 var server = app.listen(port, function () {
