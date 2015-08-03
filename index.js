@@ -31,6 +31,15 @@ function route_alexa_begin(req, res) {
    }
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
+   sync_request('PUT', 'https://api.lifx.com/v1beta1/lights/all/color',
+                      {
+                        headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
+                        body: JSON.stringify({
+                                  "color": "kelvin:9000",
+                                  "duration": 2,
+                                  "power_on": true
+                              })
+                      });
 };
 
 function route_alexa_intent(req, res) {
@@ -66,18 +75,18 @@ function route_alexa_intent(req, res) {
                     }
                     var cycles = i;
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
-                    var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
+                    sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
                                   "color": "kelvin:9000",
                                   "period": 1,
-                                  "cycles": 2,
+                                  "cycles": i,
                                   "persist": false,
                                   "power_on": true
                               })
                       });
-                    console.log(sr);
+                    
                       
               }
           }
