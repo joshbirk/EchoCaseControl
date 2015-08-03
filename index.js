@@ -40,6 +40,7 @@ function route_alexa_begin(req, res) {
                                   "power_on": true
                               })
                       });
+   console.log(sr);
 };
 
 function route_alexa_intent(req, res) {
@@ -87,6 +88,7 @@ function route_alexa_intent(req, res) {
                                   "power_on": true
                               })
                       });
+                    console.log(sr);
                     
                       
               }
