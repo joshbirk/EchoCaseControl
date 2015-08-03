@@ -47,7 +47,7 @@ function route_alexa_intent(req, res) {
               send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
-                console.log(result.records);
+            //    console.log(result.records);
                 if(result.records.length == 0) {
 
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
@@ -66,11 +66,12 @@ function route_alexa_intent(req, res) {
                     }
                     var cycles = i;
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
-                    sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
+                    var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: "{color: 'kelvin:9000',period: 1,cycles: "+i+",persist: false,power_on: true}"
                       });
+                    console.log(sr);
                       
               }
           }
