@@ -4,7 +4,10 @@ var port = process.env.PORT || 8080
 var express = require('express');
 var bodyParser = require("body-parser");
 var app = express();
+var sync_request = require('sync-request');
 app.use(bodyParser());
+
+var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
 var nforce = require('nforce');
 var org = nforce.createConnection({
@@ -61,9 +64,20 @@ function route_alexa_intent(req, res) {
                       speech += '. .';
                       if(i != result.records.length-1) {speech += 'Next case,'};
                     }
-
+                    var cycles = i;
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
-
+                    var res = request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
+                      {
+                        headers: {'Authorization','Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
+                        {
+                          "color": "kelvin:9000",
+                          "period": 1,
+                          "cycles": i,
+                          "persist": false,
+                          "power_on": true
+                        }
+                      );
+                      }
               }
           }
       });
