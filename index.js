@@ -76,8 +76,8 @@ function route_alexa_intent(req, res) {
                           "persist": false,
                           "power_on": true
                         }
-                      );
-                      }
+                      });
+                      
               }
           }
       });
