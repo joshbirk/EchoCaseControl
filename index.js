@@ -35,12 +35,12 @@ function route_alexa_begin(req, res) {
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
-                                  "color": "kelvin:9000,brightness:1.0",
+                                  "color": "kelvin:9000 brightness:1.0",
                                   "duration": 2,
                                   "power_on": true
                               })
                       });
-   console.log(sr);
+   console.log(sr.getBody());
 };
 
 function route_alexa_intent(req, res) {
@@ -80,7 +80,7 @@ function route_alexa_intent(req, res) {
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
-                                  "color": "kelvin:9000,brightness:1.0",
+                                  "color": "kelvin:9000 brightness:1.0",
                                   "from_color": "kelvin:4000,brightness:0.5",
                                   "period": 3,
                                   "cycles": 5,
@@ -88,7 +88,7 @@ function route_alexa_intent(req, res) {
                                   "power_on": true
                               })
                       });
-                    console.log(sr);
+                    console.log(sr.getBody());
                     
                       
               }
