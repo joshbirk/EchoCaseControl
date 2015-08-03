@@ -75,7 +75,7 @@ function route_alexa_intent(req, res) {
                                   "cycles": 2,
                                   "persist": false,
                                   "power_on": true
-                              }})
+                              })
                       });
                     console.log(sr);
                       
