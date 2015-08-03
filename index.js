@@ -80,7 +80,7 @@ function route_alexa_intent(req, res) {
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
-                                  "color": "kelvin:4000 brightness:0.5",
+                                  "color": "kelvin:2500 brightness:0.25",
                                   "from_color": "kelvin:9000 brightness:1.0",
                                   "period": 5,
                                   "cycles": 5,
