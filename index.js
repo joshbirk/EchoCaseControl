@@ -68,7 +68,7 @@ function route_alexa_intent(req, res) {
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
                     var res = request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
-                        headers: {'Authorization','Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
+                        headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         {
                           "color": "kelvin:9000",
                           "period": 1,
