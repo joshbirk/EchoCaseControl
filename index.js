@@ -76,13 +76,13 @@ function route_alexa_intent(req, res) {
                     }
                     var cycles = i;
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
-                    var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
+                    var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/breathe',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
                                   "color": "kelvin:4000 brightness:0.5",
                                   "from_color": "kelvin:9000 brightness:1.0",
-                                  "period": 3,
+                                  "period": 5,
                                   "cycles": 5,
                                   "persist": false,
                                   "power_on": true
