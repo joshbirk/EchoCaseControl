@@ -69,13 +69,7 @@ function route_alexa_intent(req, res) {
                     sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
-                        body: "{
-                          color: 'kelvin:9000',
-                          period: 1,
-                          cycles: "+i+",
-                          persist: false,
-                          power_on: true
-                        }"
+                        body: "{color: 'kelvin:9000',period: 1,cycles: "+i+",persist: false,power_on: true}"
                       });
                       
               }
