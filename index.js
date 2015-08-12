@@ -80,7 +80,7 @@ function route_alexa_intent(req, res) {
                   
       } 
 
-      send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
+   //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    }
 
    else if(alexa.intentName == 'GetLatestCases') {
