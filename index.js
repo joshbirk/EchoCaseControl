@@ -13,7 +13,7 @@ var current_cases = [];
 var current_case = {};
 
 var nforce = require('nforce'),
-    chatter = require('nforce-chatter')(nforce),
+    chatter = require('nforce-chatter')(nforce);
 var org = nforce.createConnection({
   clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
   clientSecret: '1308854095208667500',
