@@ -72,7 +72,7 @@ function route_alexa_intent(req, res) {
           
           console.log(current_case);
       
-          org.chatter.postComment({id: current_case._fields.id, text: post}, function(err, resp) {
+          org.chatter.postFeedItem({id: current_case._fields.id, text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
                 send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
