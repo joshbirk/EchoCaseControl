@@ -61,7 +61,7 @@ function route_alexa_intent(req, res) {
           send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                     
       } else  { //this is a specific Case number
-          org.query({ query: 'SELECT ID, Subject FROM Case WHERE CaseNumber = '+number, oauth: org.oauth }, 
+          org.query({ query: 'SELECT ID, Subject FROM Case WHERE CaseNumber = \"'+number+'\"', oauth: org.oauth }, 
           function(err, result){
             if(err) {
               console.log(err);
