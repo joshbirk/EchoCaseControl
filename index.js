@@ -12,7 +12,8 @@ var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba
 var current_cases = [];
 var current_case = {};
 
-var nforce = require('nforce');
+var nforce = require('nforce'),
+    chatter = require('nforce-chatter')(nforce),
 var org = nforce.createConnection({
   clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
   clientSecret: '1308854095208667500',
@@ -53,7 +54,32 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
+   
    alexa.intentRequest(req.body);
+   
+   if(alexa.intentName == 'AddPost') {
+      var post = alexa.post.number.value;
+      if(current_case._fields == null) {
+          
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+                    
+      } else  { //this is a specific Case number
+          org.chatter.postComment({id: current_case._fields.id, text: post}, function(err, resp) {
+              if(err) {
+                console.log(err);
+                send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
+              } else {
+                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, true);
+              
+              }
+          });
+                  
+      } 
+
+   //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
+   }
+
+
    if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
