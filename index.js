@@ -19,9 +19,9 @@ var org = nforce.createConnection({
   clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
   clientSecret: '1308854095208667500',
   redirectUri: 'imp://nothinghere',
-  apiVersion: 'v30.0',  // optional, defaults to current salesforce API version
-  environment: 'production',  // optional, salesforce 'sandbox' or 'production', production default
-  mode: 'single', // optional, 'single' or 'multi' user mode, multi default
+  apiVersion: 'v32.0', 
+  environment: 'production',  
+  mode: 'single', 
   plugins: ['chatter']
 });
 
