@@ -70,7 +70,8 @@ function route_alexa_intent(req, res) {
                     
       } else  { //this is a specific Case number
           
-          console.log(current_case);
+          console.log(current_case._fields.id);
+          console.log(post);
       
           org.chatter.postFeedItem({id: current_case._fields.id, text: post}, function(err, resp) {
               if(err) {
