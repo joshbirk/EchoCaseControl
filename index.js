@@ -10,6 +10,7 @@ app.use(bodyParser());
 var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
 var current_cases = [];
+var current_case = {};
 
 var nforce = require('nforce');
 var org = nforce.createConnection({
@@ -55,7 +56,14 @@ function route_alexa_intent(req, res) {
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
-      console.log(number);
+      if(typeof number === 'number') {
+          console.log('This is a normal number');
+      } 
+
+      if(typeof number === 'string') {
+          console.log('This is a string of numbers');
+      } 
+
       send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    }
 
