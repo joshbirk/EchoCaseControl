@@ -56,12 +56,28 @@ function route_alexa_intent(req, res) {
    alexa.intentRequest(req.body);
    if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
-      if(typeof number === 'number') {
-          console.log('This is a normal number');
-      } 
+      if(number.length == 1 && (number in current_cases)) {
+          current_case = current_cases[number];
+          send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                    
+      } else  { //this is a specific Case number
+          org.query({ query: 'SELECT ID, Subject FROM Case WHERE CaseNumber = '+number, oauth: org.oauth }, 
+          function(err, result){
+            if(err) {
+              console.log(err);
+              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
+            } else {
+               if(result.records.length == 0) {
 
-      if(typeof number === 'string') {
-          console.log('This is a string of numbers');
+                    send_alexa_response(res, 'No cases were found', 'Salesforce', 'Open Case', 'No cases found.', true);
+
+                } else {
+                    current_case = result.record[0];
+                    send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                }
+            }
+          });
+                  
       } 
 
       send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
