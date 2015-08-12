@@ -9,6 +9,8 @@ app.use(bodyParser());
 
 var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
+var current_cases = [];
+
 var nforce = require('nforce');
 var org = nforce.createConnection({
   clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
@@ -31,14 +33,17 @@ function route_alexa_begin(req, res) {
    }
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
-   var sr = sync_request('PUT', 'https://api.lifx.com/v1beta1/lights/all/color',
+   var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
-                                  "color": "kelvin:9000 brightness:1.0",
-                                  "duration": 2,
-                                  "power_on": true
-                              })
+                              "color": "brightness:0.5",
+                              "from_color": "brightness:0.25",
+                              "period": 1,
+                              "cycles": 1,
+                              "persist": false,
+                              "power_on": true
+                          })
                       });
    console.log(sr.getBody());
 };
@@ -48,8 +53,14 @@ function route_alexa_intent(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.intentRequest(req.body);
-   if(alexa.intentName == 'GetLatestCases') {
-   
+   if(alexa.intentName == 'OpenCase') {
+      var number = alexa.slots.number.value;
+      console.log(number);
+      send_alexa_response(res, speech, 'Salesforce', 'Opening case number '+number, 'Opening case number '+number, true);
+   }
+
+   else if(alexa.intentName == 'GetLatestCases') {
+      current_cases = [];
       org.query({ query: 'SELECT ID, Subject FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, result){
             if(err) {
@@ -63,7 +74,7 @@ function route_alexa_intent(req, res) {
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
 
                 } else {
-
+                    current_cases = result.records;
                     var speech = 'Here are your latest cases. ';
                     for(var i = 0; i < result.records.length; i++) {
                       console.log
