@@ -12,8 +12,8 @@ var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba
 var current_cases = [];
 var current_case = {};
 
-var nforce = require('nforce');
-var chatter = require('nforce-chatter')(nforce);
+var nforce = require('nforce'),
+    chatter =require('nforce-chatter')(nforce);
 
 var org = nforce.createConnection({
   clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
@@ -21,7 +21,8 @@ var org = nforce.createConnection({
   redirectUri: 'imp://nothinghere',
   apiVersion: 'v30.0',  // optional, defaults to current salesforce API version
   environment: 'production',  // optional, salesforce 'sandbox' or 'production', production default
-  mode: 'single' // optional, 'single' or 'multi' user mode, multi default
+  mode: 'single', // optional, 'single' or 'multi' user mode, multi default
+  plugins: ['chatter']
 });
 
 
