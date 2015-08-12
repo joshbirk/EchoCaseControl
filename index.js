@@ -72,7 +72,7 @@ function route_alexa_intent(req, res) {
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Open Case', 'No cases found.', true);
 
                 } else {
-                    current_case = result.record[0];
+                    current_case = result.records[0];
                     send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                 }
             }
