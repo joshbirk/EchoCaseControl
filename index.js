@@ -85,14 +85,11 @@ function route_alexa_intent(req, res) {
       } 
 
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
-   }
-
-
-   if(alexa.intentName == 'OpenCase') {
+   } else if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
-          send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+          send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                     
       } else  { //this is a specific Case number
           org.query({ query: 'SELECT ID, Subject FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
@@ -107,7 +104,7 @@ function route_alexa_intent(req, res) {
 
                 } else {
                     current_case = result.records[0];
-                    send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                    send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                 }
             }
           });
