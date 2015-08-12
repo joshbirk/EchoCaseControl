@@ -61,6 +61,7 @@ function route_alexa_intent(req, res) {
    
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
+      console.log(post);
       if(current_case._fields == null) {
           
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
