@@ -58,15 +58,20 @@ function route_alexa_intent(req, res) {
    }
    
    alexa.intentRequest(req.body);
+   console.log(intentName);
    
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
       console.log(post);
+      
       if(current_case._fields == null) {
           
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
                     
       } else  { //this is a specific Case number
+          
+          console.log(current_case);
+      
           org.chatter.postComment({id: current_case._fields.id, text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
