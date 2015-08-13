@@ -16,28 +16,28 @@ var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
 
 var org = nforce.createConnection({
-//  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
-//  clientSecret: '1308854095208667500',
-  clientId: '3MVG9Iu66FKeHhIN0sURtwc5v1IHy.uIKgHDwXzSZJecaXvO0CET.d_tCjhKTTvSFTKnGzCtQAZzegXlgF4fT',
-  clientSecret: '8995927317434053807',
-  authEndpoint:  'https://mobile2.t.salesforce.com/services/oauth2/authorize',
+  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
+  clientSecret: '1308854095208667500',
+ // clientId: '3MVG9Iu66FKeHhIN0sURtwc5v1IHy.uIKgHDwXzSZJecaXvO0CET.d_tCjhKTTvSFTKnGzCtQAZzegXlgF4fT',
+ // clientSecret: '8995927317434053807',
+ // authEndpoint:  'https://mobile2.t.salesforce.com/services/oauth2/authorize',
   redirectUri: 'imp://nothinghere',
   apiVersion: 'v32.0', 
-  loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
+ // loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
   mode: 'single', 
   plugins: ['chatter']
 });
 
-/*
 org.authenticate({ username: 'josh@light.test', password: 'test1234'}, function(err, resp){
   if(!err) console.log('Cached Token: ' + org.oauth.access_token)
 });
-*/
 
+/*
 org.authenticate({ username: 'jbirk@sfx.demo', password: 'demo1234'}, function(err, resp){
   if(!err) {console.log('Cached Token: ' + org.oauth.access_token)}
   else {console.log(err);}
 });
+*/
 
 // Route request and response ends up here.
 function route_alexa_begin(req, res) {
