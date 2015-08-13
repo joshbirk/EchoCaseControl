@@ -75,6 +75,7 @@ function route_alexa_intent(req, res) {
       } else  { 
         
           current_case.set("UpdateMe__c",true);
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
               console.log('update sent');
           });
@@ -100,6 +101,7 @@ function route_alexa_intent(req, res) {
       } else { 
           
           current_case.set("CloseMe__c",true);
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
           });
@@ -116,6 +118,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("Status","Closed");
           current_case.set("CloseMe__c",true);
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
           });
@@ -131,6 +134,7 @@ function route_alexa_intent(req, res) {
       } else { 
           
           current_case.set("OpenMe__c",true);
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
           });
@@ -151,6 +155,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("UpdateMe__c",true);
           current_case.set("Priority",priority);
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
           });
@@ -162,8 +167,9 @@ function route_alexa_intent(req, res) {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           current_case.set("OpenMe__c","true");
-                    org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
                     });
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
@@ -183,6 +189,7 @@ function route_alexa_intent(req, res) {
                     current_case = result.records[0];
                     console.log(current_case);
                     current_case.set("OpenMe__c","true");
+                    current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
                     org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
                     });
@@ -284,3 +291,14 @@ var server = app.listen(port, function () {
   console.log('Heroku Echo Hello World running on '+port);
 
 });
+
+
+
+
+
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+    return result;
+}
+
