@@ -166,21 +166,21 @@ function route_alexa_intent(req, res) {
       } else  { 
           
           current_case.set("CloseMe__c",false);
-          current_case.set("UpdateMe__c",false);
+          current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           
           if(update == 'Low' || update == 'Medium' || update == 'High') {
               current_case.set("Priority",update);
               org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, true);
                });
           }  
 
           if(update == 'Closed' || update == 'New' || update == 'Working') {
               current_case.set("Status",update);
               org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, true);
                });
           } 
                   
