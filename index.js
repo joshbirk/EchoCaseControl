@@ -89,6 +89,8 @@ function route_alexa_intent(req, res) {
    } else if(alexa.intentName == 'UpdatePriority') {
       var priority = alexa.slots.priority.value;
       priority = priority.charAt(0).toUpperCase() + priority.slice(1);
+      console.log(priority);
+
       if(current_case._fields == null) {
           
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
