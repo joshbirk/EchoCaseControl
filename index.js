@@ -154,10 +154,10 @@ function route_alexa_intent(req, res) {
       } 
 
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
-   } else if(alexa.intentName == 'UpdatePriority') {
-      var priority = alexa.slots.priority.value;
-      priority = priority.charAt(0).toUpperCase() + priority.slice(1);
-      console.log(priority);
+   } else if(alexa.intentName == 'UpdateCase') {
+      var update = alexa.slots.update.value;
+      update = update.charAt(0).toUpperCase() + update.slice(1);
+      console.log(update);
 
       if(current_case._fields == null) {
           
@@ -168,11 +168,21 @@ function route_alexa_intent(req, res) {
           current_case.set("CloseMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("UpdateMe__c",true);
-          current_case.set("Priority",priority);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
-          });
+          
+          if(update == 'Low' || update == 'Medium' || update == 'High') {
+              current_case.set("Priority",update);
+              org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               });
+          }  
+
+          if(update == 'Closed' || update == 'New' || update == 'Working') {
+              current_case.set("Status",update);
+              org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               });
+          } 
                   
       } 
 
