@@ -86,6 +86,53 @@ function route_alexa_intent(req, res) {
                   
       } 
 
+   } else if(alexa.intentName == 'HoldCase') {
+      
+      if(current_case._fields == null) {
+          
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+                    
+      } else { 
+          
+          current_case.set("CloseMe__c",true);
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+          });
+                  
+      } 
+
+   } else if(alexa.intentName == 'CompleteCase') {
+      
+      if(current_case._fields == null) {
+          
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+                    
+      } else { 
+          
+          current_case.set("Status","Completed");
+          current_case.set("CloseMe__c",true);
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+          });
+                  
+      } 
+
+   }  else if(alexa.intentName == 'GetCurrentCase') {
+      
+      if(current_case._fields == null) {
+          
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+                    
+      } else { 
+          
+          current_case.set("OpenMe__c",true);
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+          });
+                  
+      } 
+
+   //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    } else if(alexa.intentName == 'UpdatePriority') {
       var priority = alexa.slots.priority.value;
       priority = priority.charAt(0).toUpperCase() + priority.slice(1);
@@ -113,7 +160,7 @@ function route_alexa_intent(req, res) {
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                     
       } else  { //this is a specific Case number
-          org.query({ query: 'SELECT ID, Subject, Priority, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
+          org.query({ query: 'SELECT ID, Subject, Priority, Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
           function(err, result){
             if(err) {
               console.log(err);
@@ -142,7 +189,7 @@ function route_alexa_intent(req, res) {
 
    else if(alexa.intentName == 'GetLatestCases') {
       current_cases = [];
-      org.query({ query: 'SELECT ID, Subject, Priority, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject, Priority,  Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, result){
             if(err) {
               console.log(err);
