@@ -109,7 +109,7 @@ function route_alexa_intent(req, res) {
                     
       } else { 
           
-          current_case.set("Status","Completed");
+          current_case.set("Status","Closed");
           current_case.set("CloseMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
@@ -157,6 +157,10 @@ function route_alexa_intent(req, res) {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
+          current_case.set("OpenMe__c","true");
+                    org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+                      console.log('open sent');
+                    });
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                     
       } else  { //this is a specific Case number
