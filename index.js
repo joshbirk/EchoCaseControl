@@ -125,6 +125,7 @@ function route_alexa_intent(req, res) {
 
                 } else {
                     current_case = result.records[0];
+                    console.log(current_case);
                     current_case.set("OpenMe__c","true");
                     org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
