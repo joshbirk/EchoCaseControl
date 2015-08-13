@@ -16,8 +16,10 @@ var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
 
 var org = nforce.createConnection({
-  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
-  clientSecret: '1308854095208667500',
+//  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
+//  clientSecret: '1308854095208667500',
+  clientId: '3MVG9Iu66FKeHhIN0sURtwc5v1IHy.uIKgHDwXzSZJecaXvO0CET.d_tCjhKTTvSFTKnGzCtQAZzegXlgF4fT',
+  clientSecret: '8995927317434053807',
   redirectUri: 'imp://nothinghere',
   apiVersion: 'v32.0', 
   loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
