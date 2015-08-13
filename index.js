@@ -79,7 +79,7 @@ function route_alexa_intent(req, res) {
                 console.log(err);
                 send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
               } else {
-                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, false);
+                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, true);
               
               }
           });
@@ -96,7 +96,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("CloseMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
           });
                   
       } 
@@ -112,7 +112,7 @@ function route_alexa_intent(req, res) {
           current_case.set("Status","Completed");
           current_case.set("CloseMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
           });
                   
       } 
@@ -127,7 +127,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("OpenMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
           });
                   
       } 
@@ -147,7 +147,7 @@ function route_alexa_intent(req, res) {
           current_case.set("UpdateMe__c",true);
           current_case.set("Priority",priority);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
           });
                   
       } 
@@ -157,7 +157,7 @@ function route_alexa_intent(req, res) {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
-          send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
+          send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                     
       } else  { //this is a specific Case number
           org.query({ query: 'SELECT ID, Subject, Priority, Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
@@ -177,7 +177,7 @@ function route_alexa_intent(req, res) {
                     org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
                     });
-                    send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
+                    send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                 }
             }
           });
@@ -234,7 +234,7 @@ function route_alexa_intent(req, res) {
           }
       });
    } else {
-      send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
+      send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', true)
    }
    
 };
