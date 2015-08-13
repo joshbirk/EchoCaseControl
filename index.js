@@ -62,17 +62,13 @@ function route_alexa_intent(req, res) {
 
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
-      console.log(post);
       
       if(current_case._fields == null) {
           
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
                     
-      } else  { //this is a specific Case number
-          
-          console.log(current_case._fields.id);
-          console.log(post);
-      
+      } else  { 
+        
           current_case.set("UpdateMe__c",true);
           org.update(current_case,function(err,resp){
             console.log('update sent');
@@ -83,9 +79,26 @@ function route_alexa_intent(req, res) {
                 console.log(err);
                 send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
               } else {
-                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, true);
+                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, false);
               
               }
+          });
+                  
+      } 
+
+   } else if(alexa.intentName == 'UpdatePriority') {
+      var priority = alexa.slots.priority.value;
+      priority = priority.charAt(0).toUpperCase() + priority.slice(1);
+      if(current_case._fields == null) {
+          
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+                    
+      } else  { 
+          
+          current_case.set("UpdateMe__c",true);
+          current_case.set("Priority",priority);
+          org.update(current_case,function(err,resp){
+            send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
           });
                   
       } 
