@@ -70,8 +70,8 @@ function route_alexa_intent(req, res) {
       } else  { 
         
           current_case.set("UpdateMe__c",true);
-          org.update(current_case,function(err,resp){
-            console.log('update sent');
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+              console.log('update sent');
           });
 
           org.chatter.postFeedItem({id: current_case.get('Id'), text: post}, function(err, resp) {
@@ -98,9 +98,9 @@ function route_alexa_intent(req, res) {
       } else  { 
           
           current_case.set("UpdateMe__c",true);
-          current_case._fields.priority = priority;
-          org.update(current_case,function(err,resp){
-            send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
+          current_case.set("Priority",priority);
+          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
           });
                   
       } 
