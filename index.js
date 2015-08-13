@@ -111,7 +111,7 @@ function route_alexa_intent(req, res) {
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                     
       } else  { //this is a specific Case number
-          org.query({ query: 'SELECT ID, Subject, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
+          org.query({ query: 'SELECT ID, Subject, Priority, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
           function(err, result){
             if(err) {
               console.log(err);
@@ -139,7 +139,7 @@ function route_alexa_intent(req, res) {
 
    else if(alexa.intentName == 'GetLatestCases') {
       current_cases = [];
-      org.query({ query: 'SELECT ID, Subject, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject, Priority, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate ASC LIMIT 5', oauth: org.oauth }, 
         function(err, result){
             if(err) {
               console.log(err);
