@@ -78,6 +78,8 @@ function route_alexa_intent(req, res) {
                     
       } else  { 
         
+          current_case.set("CloseMe__c",false);
+          current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
@@ -104,6 +106,8 @@ function route_alexa_intent(req, res) {
                     
       } else { 
           
+          current_case.set("OpenMe__c",false);
+          current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
@@ -121,6 +125,8 @@ function route_alexa_intent(req, res) {
       } else { 
           
           current_case.set("Status","Closed");
+          current_case.set("OpenMe__c",false);
+          current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
@@ -137,6 +143,8 @@ function route_alexa_intent(req, res) {
                     
       } else { 
           
+          current_case.set("CloseMe__c",false);
+          current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
@@ -157,6 +165,8 @@ function route_alexa_intent(req, res) {
                     
       } else  { 
           
+          current_case.set("CloseMe__c",false);
+          current_case.set("UpdateMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Priority",priority);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
@@ -172,7 +182,9 @@ function route_alexa_intent(req, res) {
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          current_case.set("OpenMe__c","true");
+          current_case.set("CloseMe__c",false);
+          current_case.set("UpdateMe__c",false);
+          current_case.set("OpenMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
                     });
@@ -192,7 +204,9 @@ function route_alexa_intent(req, res) {
                 } else {
                     current_case = result.records[0];
                     console.log(current_case);
-                    current_case.set("OpenMe__c","true");
+                    current_case.set("CloseMe__c",false);
+                    current_case.set("UpdateMe__c",false);
+                    current_case.set("OpenMe__c",true);
                     current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
                     org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
