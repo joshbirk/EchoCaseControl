@@ -20,13 +20,18 @@ var org = nforce.createConnection({
   clientSecret: '1308854095208667500',
   redirectUri: 'imp://nothinghere',
   apiVersion: 'v32.0', 
-  environment: 'production',  
+  loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
   mode: 'single', 
   plugins: ['chatter']
 });
 
-
+/*
 org.authenticate({ username: 'josh@light.test', password: 'test1234'}, function(err, resp){
+  if(!err) console.log('Cached Token: ' + org.oauth.access_token)
+});
+*/
+
+org.authenticate({ username: 'josh@sfx.demo', password: 'demo1234'}, function(err, resp){
   if(!err) console.log('Cached Token: ' + org.oauth.access_token)
 });
 
