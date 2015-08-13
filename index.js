@@ -290,7 +290,9 @@ app.post('/echo', function (req, res) {
 var server = app.listen(port, function () {
 
   console.log('Heroku Echo Hello World running on '+port);
-
+  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+    console.log('addr: '+add);
+  });
 });
 
 
