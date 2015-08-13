@@ -96,7 +96,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("CloseMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
           });
                   
       } 
@@ -112,7 +112,7 @@ function route_alexa_intent(req, res) {
           current_case.set("Status","Completed");
           current_case.set("CloseMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
           });
                   
       } 
@@ -127,7 +127,7 @@ function route_alexa_intent(req, res) {
           
           current_case.set("OpenMe__c",true);
           org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, true);
+               send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
           });
                   
       } 
