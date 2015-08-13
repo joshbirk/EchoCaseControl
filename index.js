@@ -20,6 +20,7 @@ var org = nforce.createConnection({
 //  clientSecret: '1308854095208667500',
   clientId: '3MVG9Iu66FKeHhIN0sURtwc5v1IHy.uIKgHDwXzSZJecaXvO0CET.d_tCjhKTTvSFTKnGzCtQAZzegXlgF4fT',
   clientSecret: '8995927317434053807',
+  authEndpoint:  'https://mobile2.t.salesforce.com/services/oauth2/authorize',
   redirectUri: 'imp://nothinghere',
   apiVersion: 'v32.0', 
   loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
