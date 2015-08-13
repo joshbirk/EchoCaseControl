@@ -98,7 +98,7 @@ function route_alexa_intent(req, res) {
       } else  { 
           
           current_case.set("UpdateMe__c",true);
-          current_case.set("Priority",priority);
+          current_case._fields.priority = priority;
           org.update(current_case,function(err,resp){
             send_alexa_response(res, 'Priority set to'+priority, 'Salesforce', 'Priority Change', 'Priority set to'+priority, false);
           });
