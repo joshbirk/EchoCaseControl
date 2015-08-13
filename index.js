@@ -110,8 +110,8 @@ function route_alexa_intent(req, res) {
 
                 } else {
                     current_case = result.records[0];
-                    current_case.set("OpenMe__c",true);
-                    org.update(current_case,function(err,resp){
+                    current_case.set("OpenMe__c","true");
+                    org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
                       console.log('open sent');
                     });
                     send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
