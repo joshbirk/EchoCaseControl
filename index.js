@@ -73,7 +73,12 @@ function route_alexa_intent(req, res) {
           console.log(current_case._fields.id);
           console.log(post);
       
-          org.chatter.postFeedItem({id: current_case.get('id'), text: post}, function(err, resp) {
+          current_case.set("UpdateMe__c",true);
+          org.update(current_case,function(err,resp){
+            console.log('update sent');
+          });
+
+          org.chatter.postFeedItem({id: current_case.get('Id'), text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
                 send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
@@ -105,6 +110,10 @@ function route_alexa_intent(req, res) {
 
                 } else {
                     current_case = result.records[0];
+                    current_case.set("OpenMe__c",true);
+                    org.update(current_case,function(err,resp){
+                      console.log('open sent');
+                    });
                     send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                 }
             }
