@@ -32,7 +32,8 @@ org.authenticate({ username: 'josh@light.test', password: 'test1234'}, function(
 */
 
 org.authenticate({ username: 'josh@sfx.demo', password: 'demo1234'}, function(err, resp){
-  if(!err) console.log('Cached Token: ' + org.oauth.access_token)
+  if(!err) {console.log('Cached Token: ' + org.oauth.access_token)}
+  else {console.log(err);}
 });
 
 // Route request and response ends up here.
