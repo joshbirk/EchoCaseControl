@@ -73,7 +73,7 @@ function route_alexa_intent(req, res) {
           console.log(current_case._fields.id);
           console.log(post);
       
-          org.chatter.postFeedItem({id: current_case._fields.id, text: post}, function(err, resp) {
+          org.chatter.postFeedItem({id: current_case.get('id'), text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
                 send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
@@ -90,7 +90,7 @@ function route_alexa_intent(req, res) {
       var number = alexa.slots.number.value;
       if(number.length == 1 && (number in current_cases)) {
           current_case = current_cases[number];
-          send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
+          send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                     
       } else  { //this is a specific Case number
           org.query({ query: 'SELECT ID, Subject FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
@@ -105,7 +105,7 @@ function route_alexa_intent(req, res) {
 
                 } else {
                     current_case = result.records[0];
-                    send_alexa_response(res, 'Case Opened, '+current_case._fields.subject, 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
+                    send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, false);
                 }
             }
           });
