@@ -77,7 +77,28 @@ function route_alexa_intent(req, res) {
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
                     
       } else  { 
-        
+          /*
+          AddPost chatter {follow up call|post}
+AddPost chatter {next meeting|post}
+AddPost chatter {cannot replicate|post}
+AddPost chatter {missing info|post}
+*/
+          if(post == 'follow up') {
+            post = 'We need to follow up with the customer';
+          }
+
+          if(post == 'next') {
+            post = 'This needs to be prioritized at the next meeting';
+          }
+
+          if(post == 'cannot replicate') {
+            post = 'I cannot replicate this issue with the current information';
+          }
+
+          if(post == 'missing info') {
+            post = 'This case is incomplete, we need more information';
+          }
+
           current_case.set("CloseMe__c",false);
           current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
