@@ -191,6 +191,8 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           
+          if(update == 'Hi') { update = 'High'; } //really, Alexa?
+
           if(update == 'Low' || update == 'Medium' || update == 'High') {
               current_case.set("Priority",update);
               org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
