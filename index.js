@@ -28,7 +28,7 @@ var org = nforce.createConnection({
   plugins: ['chatter']
 });
 
-org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
+org.authenticate({ username: 'josh@light.test', password: 'hello1234'}, function(err, resp){
   if(!err) console.log('Cached Token: ' + org.oauth.access_token)
 });
 
@@ -46,7 +46,7 @@ function route_alexa_begin(req, res) {
    }
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
-   var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
+ /*  var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
                       {
                         headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
                         body: JSON.stringify({
@@ -57,7 +57,7 @@ function route_alexa_begin(req, res) {
                               "persist": false,
                               "power_on": true
                           })
-                      });
+                      }); */
    console.log(sr.getBody());
 };
 
