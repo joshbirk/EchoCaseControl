@@ -68,7 +68,7 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   var access_token = req.body.user.accessToken;
+   //var access_token = req.body.user.accessToken;
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
