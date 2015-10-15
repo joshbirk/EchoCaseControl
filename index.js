@@ -29,7 +29,10 @@ var org = nforce.createConnection({
 });
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
-  if(!err) console.log('Cached Token: ' + org.oauth.access_token)
+  if(!err) {
+      console.log(org.oauth);
+      console.log('Cached Token: ' + org.oauth.access_token);
+    }
 });
 
 /*
@@ -65,7 +68,7 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   console.log(req.body);
+   var access_token = req.body.user.accessToken;
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
