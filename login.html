@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+<SCRIPT>
+	var parser = document.createElement('a');
+	parser.href = window.location.href;
+/*
+	parser.protocol; // => "http:"
+	parser.hostname; // => "example.com"
+	parser.port;     // => "3000"
+	parser.pathname; // => "/pathname/"
+	parser.search;   // => "?search=test"
+	parser.hash;     // => "#hash"
+	parser.host;     // => "example.com:3000"
+*/
+	params = [];
+	query_params = parser.search;
+	query_params = query_params.substring(1.query_params.length);
+	query_params = query_params.split('&');
+	for(i = 0; i < query_params.length; i++) {
+		params[query_params.split('=')[0]] = query_params.split('=')[1];
+	}
+
+	for(var i in params) {
+		console.log(i + ":" + params[i]);
+	}
+
+</SCRIPT>
+</HEAD>
+
+
+<BODY>
+
+
+
+</BODY>
+</HTML>

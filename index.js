@@ -338,6 +338,11 @@ app.post('/echo', function (req, res) {
   }
 });
 
+app.get('/login',function (req, res) {
+  res.sendfile('login.html');
+});
+
+
 var server = app.listen(port, function () {
 
   console.log('Heroku Echo Hello World running on '+port);
