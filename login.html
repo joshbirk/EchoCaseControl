@@ -13,7 +13,11 @@
 	parser.host;     // => "example.com:3000"
 */
 	params = [];
-	query_params = parser.search;
+	if(parser.search != null) {
+		query_params = parser.search;
+	} else {
+		query_params = parser.hash;	
+	}
 	query_params = query_params.substring(1,query_params.length);
 	query_params = query_params.split('&');
 	for(i = 0; i < query_params.length; i++) {
