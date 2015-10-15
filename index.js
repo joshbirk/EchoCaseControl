@@ -30,9 +30,7 @@ var org = nforce.createConnection({
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
-      console.log(org.oauth);
       console.log('Cached Token: ' + org.oauth.access_token);
-      org.oauth.instance_url = 'https://login.salesforce.com';
     }
 
 });
@@ -70,7 +68,11 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   //var access_token = req.body.user.accessToken;
+   
+   auth = {
+    access_token: req.body.user.accessToken.split("!.!.!")[0],
+    instance_url: req.body.user.accessToken.split("!.!.!")[1],
+   }
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
@@ -173,7 +175,7 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: auth},function(err,resp){
                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
           });
                   
