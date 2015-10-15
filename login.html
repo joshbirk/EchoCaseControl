@@ -16,7 +16,7 @@
 	if(parser.search != null) {
 		query_params = parser.search;
 	} else {
-		query_params = parser.hash;	
+		query_params = window.location.href.split("#")[1];	
 	}
 	query_params = query_params.substring(1,query_params.length);
 	query_params = query_params.split('&');
