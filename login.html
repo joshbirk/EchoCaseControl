@@ -13,7 +13,7 @@
 	parser.host;     // => "example.com:3000"
 */
 	params = [];
-	if(parser.search != null) {
+	if(parser.search != "") {
 		query_params = parser.search;
 	} else {
 		query_params = window.location.href.split("#")[1];	
