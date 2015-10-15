@@ -35,8 +35,7 @@
 	}
 
 	if(params["access_token"] != null) {
-	//	window.location.href = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M9T4ZTMJW28UO#access_token="+params["access_token"]+"&state="+document.cookie.split("=")[1];
-	}
+		window.location.href = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M9T4ZTMJW28UO#state="+document.cookie.split("=")[1];+"&access_token="+window.location.href.split("#")[1];
 
 </SCRIPT>
 </HEAD>
