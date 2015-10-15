@@ -36,8 +36,8 @@
 
 	if(params["access_token"] != null) {
 		oauth = {
-			token: params["access_token"];
-			instance_url: params["instance_url"];
+			token: params["access_token"],
+			instance_url: params["instance_url"]
 		}
 
 		window.location.href = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M9T4ZTMJW28UO#state="+document.cookie.split("=")[1]+"&access_token="+encodeURIComponent(JSON.stringify(oauth));
