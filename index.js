@@ -70,8 +70,8 @@ function route_alexa_intent(req, res) {
    }
    console.log(req.body);
    auth = {
-   // access_token: req.body.user.accessToken.split("!.!.!")[0],
-   // instance_url: 'https://'+req.body.user.accessToken.split("!.!.!")[1],
+    access_token: req.body.session.user.accessToken.split("!.!.!")[0],
+    instance_url: 'https://'+req.body.session.user.accessToken.split("!.!.!")[1],
    }
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
