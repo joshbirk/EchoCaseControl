@@ -65,7 +65,7 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   
+   console.log(req.body);
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
