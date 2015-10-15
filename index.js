@@ -68,7 +68,7 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   
+   console.log(req.body);
    auth = {
     access_token: req.body.user.accessToken.split("!.!.!")[0],
     instance_url: 'https://'+req.body.user.accessToken.split("!.!.!")[1],
