@@ -15,9 +15,9 @@
 	params = [];
 	query_params = parser.search;
 	query_params = query_params.substring(1,query_params.length);
-	query_params = query_params.slice('&');
+	query_params = query_params.split('&');
 	for(i = 0; i < query_params.length; i++) {
-		params[query_params[i].split('=')[0]] = query_params[i].slice('=')[1];
+		params[query_params[i].split('=')[0]] = query_params[i].split('=')[1];
 	}
 
 	for(var i in params) {
