@@ -32,7 +32,9 @@ org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, func
   if(!err) {
       console.log(org.oauth);
       console.log('Cached Token: ' + org.oauth.access_token);
+      org.oauth.instance_url = 'https://login.salesforce.com';
     }
+
 });
 
 /*
