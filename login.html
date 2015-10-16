@@ -36,10 +36,7 @@
 	}
 
 	if(params["access_token"] != null) {
-		var iurl = document.createElement('a');
-		iurl.href = params["instance_url"];
-		console.log(iurl);
-	//	window.location.href = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M9T4ZTMJW28UO#state="+document.cookie.split("=")[1]+"&access_token="+params["access_token"]+"!.!.!"+iurl.hostname;
+		window.location.href = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M9T4ZTMJW28UO#state="+document.cookie.split("=")[1]+"&access_token="+params["access_token"]+"!.!.!"+params["instance_url"];
 	}
 
 </SCRIPT>
