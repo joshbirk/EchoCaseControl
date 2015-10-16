@@ -25,7 +25,7 @@ var org = nforce.createConnection({
   apiVersion: 'v32.0', 
  // loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
   mode: 'multi',
-  autoRefresh: true
+  autoRefresh: true,
   plugins: ['chatter']
 });
 
