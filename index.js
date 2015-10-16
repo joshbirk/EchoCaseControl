@@ -25,14 +25,13 @@ var org = nforce.createConnection({
   plugins: ['chatter']
 });
 
-/*
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
       console.log('Cached Token: ' + org.oauth.access_token);
     }
 
 });
-*/
+
 
 /*
 org.authenticate({ username: 'jbirk@sfx.demo', password: 'demo1234'}, function(err, resp){
