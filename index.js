@@ -27,18 +27,10 @@ var org = nforce.createConnection({
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
-      console.log('Cached Token: ' + org.oauth.access_token);
+      console.log('Cached Token: ' + org);
     }
-
 });
 
-
-/*
-org.authenticate({ username: 'jbirk@sfx.demo', password: 'demo1234'}, function(err, resp){
-  if(!err) {console.log('Cached Token: ' + org.oauth.access_token)}
-  else {console.log(err);}
-});
-*/
 
 // Route request and response ends up here.
 function route_alexa_begin(req, res) {
@@ -47,19 +39,6 @@ function route_alexa_begin(req, res) {
    }
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
- /*  var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/pulse',
-                      {
-                        headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
-                        body: JSON.stringify({
-                              "color": "brightness:0.5",
-                              "from_color": "brightness:0.25",
-                              "period": 1,
-                              "cycles": 1,
-                              "persist": false,
-                              "power_on": true
-                          })
-                      });
-   console.log(sr.getBody());  */
 };
 
 function route_alexa_intent(req, res) {
