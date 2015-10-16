@@ -16,25 +16,23 @@ var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
 
 var org = nforce.createConnection({
-  clientId: '3MVG9sG9Z3Q1RlbdgwDkzM3OQ0rbyEhv3U2zHLecnp1hMpmc.j.ng7mO.tlVC0ArPDeY.4JG0RlwfMPNONz4s',
-  clientSecret: '1308854095208667500',
- // clientId: '3MVG9Iu66FKeHhIN0sURtwc5v1IHy.uIKgHDwXzSZJecaXvO0CET.d_tCjhKTTvSFTKnGzCtQAZzegXlgF4fT',
- // clientSecret: '8995927317434053807',
- // authEndpoint:  'https://mobile2.t.salesforce.com/services/oauth2/authorize',
-  redirectUri: 'imp://nothinghere',
+  clientId: '3MVG98SW_UPr.JFgvKybAL6TSV3wyJWVo.NFAtcge.7yppmiBdm60S_c6ab9dUonJR4eIFvQEyEatxUGEUp66',
+  clientSecret: '1991862460972103310',
+  redirectUri: 'https://heroku-echo-test.herokuapp.com/login',
   apiVersion: 'v32.0', 
- // loginUri: 'https://mobile2.t.salesforce.com/services/oauth2/token',  
   mode: 'multi',
   autoRefresh: true,
   plugins: ['chatter']
 });
 
+/*
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
       console.log('Cached Token: ' + org.oauth.access_token);
     }
 
 });
+*/
 
 /*
 org.authenticate({ username: 'jbirk@sfx.demo', password: 'demo1234'}, function(err, resp){
@@ -69,11 +67,10 @@ function route_alexa_intent(req, res) {
    if(req.body == null) {
         return res.jsonp({message: 'no post body found'});
    }
-   console.log(req.body);
-   auth = {
-    access_token: req.body.session.user.accessToken.split("!.!.!")[0],
-    instance_url: req.body.session.user.accessToken.split("!.!.!")[1]
-   }
+   
+   org.oauth.access_token = req.body.session.user.accessToken.split("!.!.!")[0];
+   org.oauth.instance_url = req.body.session.user.accessToken.split("!.!.!")[1];
+   
    console.log(auth);
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
