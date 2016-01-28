@@ -343,8 +343,8 @@ app.post('/token',function (req, res) {
                       body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
 
-  console.log(sr);
-  res.jsonp(sr.getBody());
+  console.log(JSON.parse(sr.getBody('utf8')));
+  res.jsonp(sr.getBody('utf8'));
 });
 
 var server = app.listen(port, function () {
