@@ -329,7 +329,16 @@ app.get('/login',function (req, res) {
 app.post('/token',function (req, res) {
   console.log('debugging!');
   console.log(req.body);
-  res.jsonp({status: 'trying, really'});
+  var sr = sync_request('POST', 'https://login.salesforce.com/services/oauth2/token',
+                      {
+                        body: JSON.stringify({ grant_type: 'authorization_code',
+                                              code: req.body.code,
+                                              client_id: '3MVG98SW_UPr.JFgvKybAL6TSV3wyJWVo.NFAtcge.7yppmiBdm60S_c6ab9dUonJR4eIFvQEyEatxUGEUp66',
+                                              client_secret: '1991862460972103310' })
+                      });
+
+  console.debug(sr.getBody());
+  res.jsonp(sr.getBody());
 });
 
 var server = app.listen(port, function () {
