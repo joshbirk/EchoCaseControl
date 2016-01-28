@@ -332,15 +332,15 @@ app.post('/token',function (req, res) {
   var sr = sync_request('POST', 'https://login.salesforce.com/services/oauth2/token',
                       {
                         
-                        headers: {'Content-Type':'application/json'},
-                        body: JSON.stringify({grant_type: req.body.grant_type,
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  /*                      body: JSON.stringify({grant_type: req.body.grant_type,
                                               code: req.body.code,
                                               client_id: req.body.client_id,
                                               client_secret: req.body.client_secret,
                                               redirect_uri: req.body.redirect_uri
-                                            })
+                                            }) */
 
-//                      body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
+                      body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
 
   console.debug(sr.getBody());
