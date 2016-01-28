@@ -326,6 +326,10 @@ app.get('/login',function (req, res) {
   res.sendfile('login.html');
 });
 
+app.get('/token',function (req, res) {
+  console.log(req.body);
+  res.jsonp({status: 'trying, really'});
+}
 
 var server = app.listen(port, function () {
 
