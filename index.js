@@ -27,7 +27,7 @@ var org = nforce.createConnection({
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
-      console.log('Cached Token: ' + oauth);
+      console.log('Cached Token: ' + org.oauth);
     }
 });
 
