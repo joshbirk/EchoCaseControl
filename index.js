@@ -330,7 +330,7 @@ app.post('/token',function (req, res) {
   console.log('debugging!');
   console.log(req.body);
   res.jsonp({status: 'trying, really'});
-}
+});
 
 var server = app.listen(port, function () {
 
