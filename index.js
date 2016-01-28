@@ -343,7 +343,7 @@ app.post('/token',function (req, res) {
                       body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
 
-  console.debug(sr.getBody());
+  console.log(sr.getBody());
   res.jsonp(sr.getBody());
 });
 
