@@ -344,7 +344,7 @@ app.post('/token',function (req, res) {
                       });
 
   console.log(JSON.parse(sr.getBody('utf8')));
-  res.jsonp(sr.getBody('utf8'));
+  res.send(JSON.parse(sr.getBody('utf8'));
 });
 
 var server = app.listen(port, function () {
