@@ -326,7 +326,8 @@ app.get('/login',function (req, res) {
   res.sendfile('login.html');
 });
 
-app.get('/token',function (req, res) {
+app.post('/token',function (req, res) {
+  console.log('debugging!');
   console.log(req.body);
   res.jsonp({status: 'trying, really'});
 }
