@@ -28,6 +28,8 @@ var org = nforce.createConnection({
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
   //    console.log('ORG: ' + org.oauth);
+    console.log('!----SALESFORCE SESSION-----!');
+    console.log(org.oauth);
     }
 });
 
@@ -40,8 +42,10 @@ function route_alexa_begin(req, res) {
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
 
-   console.log('!----REQUEST SESSION--------!\n'+JSON.parse(req.body.session.user)+'\n!----SALESFORCE SESSION-----!\n'+JSON.parse(org.oauth));
-  
+   console.log('!----REQUEST SESSION--------!');
+   console.log(req.body.session.user);
+   
+
 };
 
 function route_alexa_intent(req, res) {
