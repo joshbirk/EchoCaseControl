@@ -51,7 +51,7 @@ function route_alexa_intent(req, res) {
 //   org.oauth.access_token = req.body.session.user.accessToken.split("!.!.!")[0];
 //   org.oauth.instance_url = req.body.session.user.accessToken.split("!.!.!")[1];
    
-   console.log(auth);
+//   console.log(auth);
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
