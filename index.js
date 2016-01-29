@@ -54,8 +54,13 @@ function route_alexa_intent(req, res) {
    }
 
    
-//   org.oauth.access_token = req.body.session.user.accessToken.split("!.!.!")[0];
-//   org.oauth.instance_url = req.body.session.user.accessToken.split("!.!.!")[1];
+   if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
+        send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
+        return res.jsonp({message: 'not logged in'});
+   }
+
+   org.oauth.access_token = req.body.session.user.accessToken.split(" ")[0];
+   org.oauth.instance_url = req.body.session.user.accessToken.split(" ")[1];
    
 //   console.log(auth);
    alexa.intentRequest(req.body);
