@@ -40,11 +40,8 @@ function route_alexa_begin(req, res) {
    alexa.launchRequest(req.body);
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
 
-   console.log('!----REQUEST SESSION--------!');
-   console.log(req.body.session.user);
-   console.log('!----SALESFORCE SESSION-----!');
-   console.log(org.oauth);
-
+   console.log('!----REQUEST SESSION--------!\n'+req.body.session.user+'\n!----SALESFORCE SESSION-----!\n'+org.oauth);
+  
 };
 
 function route_alexa_intent(req, res) {
