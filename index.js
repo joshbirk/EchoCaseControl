@@ -20,14 +20,14 @@ var org = nforce.createConnection({
   clientSecret: '1991862460972103310',
   redirectUri: 'https://heroku-echo-test.herokuapp.com/login',
   apiVersion: 'v32.0', 
-  mode: 'multi',
+  mode: 'single',
   autoRefresh: true,
   plugins: ['chatter']
 });
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
-      console.log('Cached Token: ' + org.oauth);
+      console.log('ORG: ' + org.oauth);
     }
 });
 
