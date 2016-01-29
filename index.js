@@ -47,7 +47,7 @@ function route_alexa_intent(req, res) {
    }
 
    console.log(req.body.session);
-   
+   console.log(org.oauth);
 //   org.oauth.access_token = req.body.session.user.accessToken.split("!.!.!")[0];
 //   org.oauth.instance_url = req.body.session.user.accessToken.split("!.!.!")[1];
    
