@@ -27,7 +27,7 @@ var org = nforce.createConnection({
 
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
-      console.log('ORG: ' + org.oauth);
+  //    console.log('ORG: ' + org.oauth);
     }
 });
 
@@ -41,10 +41,10 @@ function route_alexa_begin(req, res) {
    send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
 
    console.log('!----REQUEST SESSION--------!');
-   console.log(req.body.session);
+   console.log(req.body.session.user);
    console.log('!----SALESFORCE SESSION-----!');
    console.log(org.oauth);
-   
+
 };
 
 function route_alexa_intent(req, res) {
@@ -264,7 +264,6 @@ AddPost chatter {missing info|post}
                     current_cases = result.records;
                     var speech = 'Here are your latest cases. ';
                     for(var i = 0; i < result.records.length; i++) {
-                      console.log
                       speech += 'Case Number ';
                       speech += i+1;
                       speech += '. .';
@@ -334,7 +333,6 @@ app.get('/login',function (req, res) {
 });
 
 app.post('/token',function (req, res) {
-  console.log('debugging!');
   console.log(req.body);
   var sr = sync_request('POST', 'https://login.salesforce.com/services/oauth2/token',
                       {
