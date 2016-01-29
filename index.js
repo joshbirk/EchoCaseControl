@@ -25,6 +25,7 @@ var org = nforce.createConnection({
   plugins: ['chatter']
 });
 
+/*
 org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, function(err, resp){
   if(!err) {
   //    console.log('ORG: ' + org.oauth);
@@ -32,6 +33,7 @@ org.authenticate({ username: 'df15sessions@dev.org', password: 'demo1234'}, func
     console.log(org.oauth);
     }
 });
+*/
 
 
 // Route request and response ends up here.
