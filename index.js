@@ -38,7 +38,13 @@ function route_alexa_begin(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
    alexa.launchRequest(req.body);
-   send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false)
+   send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
+
+   console.log('!----REQUEST SESSION--------!');
+   console.log(req.body.session);
+   console.log('!----SALESFORCE SESSION-----!');
+   console.log(org.oauth);
+   
 };
 
 function route_alexa_intent(req, res) {
@@ -46,10 +52,7 @@ function route_alexa_intent(req, res) {
         return res.jsonp({message: 'no post body found'});
    }
 
-   console.log('!----REQUEST SESSION--------!');
-   console.log(req.body.session);
-   console.log('!----SALESFORCE SESSION-----!');
-   console.log(org.oauth);
+   
 //   org.oauth.access_token = req.body.session.user.accessToken.split("!.!.!")[0];
 //   org.oauth.instance_url = req.body.session.user.accessToken.split("!.!.!")[1];
    
