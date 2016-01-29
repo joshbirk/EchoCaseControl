@@ -61,8 +61,8 @@ function route_alexa_intent(req, res) {
         return res.jsonp({message: 'not logged in'});
    }
 
-   org.oauth.access_token = req.body.session.user.accessToken.split(" ")[0];
-   org.oauth.instance_url = req.body.session.user.accessToken.split(" ")[1];
+   oauth = {access_token : req.body.session.user.accessToken.split(" ")[0],
+            instance_url : req.body.session.user.accessToken.split(" ")[1]}
    
 //   console.log(auth);
    alexa.intentRequest(req.body);
@@ -102,7 +102,7 @@ AddPost chatter {missing info|post}
           current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
               console.log('update sent');
           });
 
@@ -130,7 +130,7 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
           });
                   
@@ -149,7 +149,7 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
           });
                   
@@ -167,7 +167,7 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          org.update({ sobject: current_case, oauth: auth},function(err,resp){
+          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
           });
                   
@@ -194,14 +194,14 @@ AddPost chatter {missing info|post}
 
           if(update == 'Low' || update == 'Medium' || update == 'High') {
               current_case.set("Priority",update);
-              org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+              org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, true);
                });
           }  
 
           if(update == 'Closed' || update == 'New' || update == 'Working') {
               current_case.set("Status",update);
-              org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+              org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, true);
                });
           } 
@@ -218,7 +218,7 @@ AddPost chatter {missing info|post}
           current_case.set("CloseMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
-          org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                       console.log('open sent');
                     });
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
@@ -241,7 +241,7 @@ AddPost chatter {missing info|post}
                     current_case.set("UpdateMe__c",false);
                     current_case.set("OpenMe__c",true);
                     current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-                    org.update({ sobject: current_case, oauth: org.oauth},function(err,resp){
+                    org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                       console.log('open sent');
                     });
                     send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
@@ -256,7 +256,7 @@ AddPost chatter {missing info|post}
 
    else if(alexa.intentName == 'GetLatestCases') {
       current_cases = [];
-      org.query({ query: 'SELECT ID, Subject, Priority,  Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate DESC LIMIT 5', oauth: org.oauth }, 
+      org.query({ query: 'SELECT ID, Subject, Priority,  Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate DESC LIMIT 5', oauth: oauth }, 
         function(err, result){
             if(err) {
               console.log(err);
