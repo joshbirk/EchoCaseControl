@@ -109,7 +109,8 @@ AddPost chatter {missing info|post}
           org.chatter.postFeedItem({id: current_case.get('Id'), text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
-                send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
+                res.jsonp(err);
+              //  send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
               } else {
                   send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, true);
               
@@ -131,7 +132,12 @@ AddPost chatter {missing info|post}
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-               send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
+               if(err) {
+                console.log(err);
+                res.jsonp(err);
+               } else {
+                send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
+              }
           });
                   
       } 
@@ -150,7 +156,12 @@ AddPost chatter {missing info|post}
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-               send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
+               if(err) {
+                console.log(err);
+                res.jsonp(err);
+               } else {
+                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
+               }
           });
                   
       } 
@@ -168,7 +179,12 @@ AddPost chatter {missing info|post}
           current_case.set("OpenMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-               send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
+               if(err) {
+                console.log(err);
+                res.jsonp(err);
+               } else {
+                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
+                }
           });
                   
       } 
@@ -195,14 +211,24 @@ AddPost chatter {missing info|post}
           if(update == 'Low' || update == 'Medium' || update == 'High') {
               current_case.set("Priority",update);
               org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-               send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, true);
+               if(err) {
+                console.log(err);
+                res.jsonp(err);
+               } else {
+                send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, true);
+               }
                });
           }  
 
           if(update == 'Closed' || update == 'New' || update == 'Working') {
               current_case.set("Status",update);
               org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-               send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, true);
+               if(err) {
+                console.log(err);
+                res.jsonp(err);
+               } else {
+                send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, true);
+               }
                });
           } 
                   
@@ -260,7 +286,8 @@ AddPost chatter {missing info|post}
         function(err, result){
             if(err) {
               console.log(err);
-              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
+              res.jsonp(err);
+              //send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
             //    console.log(result.records);
