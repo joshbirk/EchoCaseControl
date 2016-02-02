@@ -385,7 +385,7 @@ app.post('/token',function (req, res) {
   response = JSON.parse(sr.getBody('utf8'));
   
   response.access_token = response.access_token + " " + response.instance_url;
-  response.expires_in = 3600;
+  response.expires_in = 180;
 
   res.jsonp(response);
 });
