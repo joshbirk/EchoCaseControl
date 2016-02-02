@@ -382,8 +382,9 @@ app.post('/token',function (req, res) {
 
                       body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
-
+  console.log(sr.getBody('utf8'));
   response = JSON.parse(sr.getBody('utf8'));
+  
   response.access_token = response.access_token + " " + response.instance_url;
   res.jsonp(response);
 });
