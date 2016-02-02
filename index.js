@@ -58,7 +58,6 @@ function route_alexa_intent(req, res) {
    
    if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
         send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
-        return res.jsonp({message: 'not logged in'});
    }
 
    oauth = {access_token : req.body.session.user.accessToken.split(" ")[0],
@@ -380,14 +379,14 @@ app.post('/token',function (req, res) {
                                               redirect_uri: req.body.redirect_uri
                                             }) */
 
-                      body: 'grant_type=authorization_code&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
+                      body: 'grant_type='+req.body.grant_type+'&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
   console.log(sr.getBody('utf8'));
   response = JSON.parse(sr.getBody('utf8'));
   
   response.access_token = response.access_token + " " + response.instance_url;
-  response.expires_in = 10800;
-  
+  response.expires_in = 3600;
+
   res.jsonp(response);
 });
 
