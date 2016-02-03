@@ -378,8 +378,8 @@ app.post('/token',function (req, res) {
                                               client_secret: req.body.client_secret,
                                               redirect_uri: req.body.redirect_uri
                                             }) */
-
-                      body: 'grant_type='+req.body.grant_type+'&code='+req.body.code+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
+                      //TODO: FLIP OUT CODE FOR REFRESHTOKEN
+                      body: 'grant_type='+req.body.grant_type+'&code='+req.body.code+'&refresh_token='+req.body.refresh_token+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
                       });
   console.log(sr.getBody('utf8'));
   response = JSON.parse(sr.getBody('utf8'));
