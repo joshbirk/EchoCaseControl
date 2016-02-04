@@ -2,19 +2,30 @@ var alexa = require('alexa-nodekit');
 
 var port = process.env.PORT || 8080
 var express = require('express');
-var bodyParser = require("body-parser");
 var app = express();
-var sync_request = require('sync-request');
+
+var bodyParser = require("body-parser");
 app.use(bodyParser());
+
+var sync_request = require('sync-request');
+var sfdc_amazon = require('sfdc-oauth-amazon-express');
 
 var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
+/* need to convert this to multi-user */
 var current_cases = [];
 var current_case = {};
 
 var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
 
+var org = nforce.createConnection({
+  apiVersion: 'v32.0', 
+  mode: 'single',
+  plugins: ['chatter']
+});
+
+/*
 var org = nforce.createConnection({
   clientId: '3MVG98SW_UPr.JFgvKybAL6TSV3wyJWVo.NFAtcge.7yppmiBdm60S_c6ab9dUonJR4eIFvQEyEatxUGEUp66',
   clientSecret: '1991862460972103310',
@@ -60,8 +71,7 @@ function route_alexa_intent(req, res) {
         send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
    }
 
-   oauth = {access_token : req.body.session.user.accessToken.split(" ")[0],
-            instance_url : req.body.session.user.accessToken.split(" ")[1]}
+   oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
    
 //   console.log(auth);
    alexa.intentRequest(req.body);
@@ -362,33 +372,7 @@ app.post('/echo', function (req, res) {
   }
 });
 
-app.get('/login',function (req, res) {
-  res.sendfile('login.html');
-});
-
-app.post('/token',function (req, res) {
-  console.log(req.body);
-  var sr = sync_request('POST', 'https://login.salesforce.com/services/oauth2/token',
-                      {
-                        
-                        headers: {'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
-  /*                      body: JSON.stringify({grant_type: req.body.grant_type,
-                                              code: req.body.code,
-                                              client_id: req.body.client_id,
-                                              client_secret: req.body.client_secret,
-                                              redirect_uri: req.body.redirect_uri
-                                            }) */
-                      //TODO: FLIP OUT CODE FOR REFRESHTOKEN
-                      body: 'grant_type='+req.body.grant_type+'&code='+req.body.code+'&refresh_token='+req.body.refresh_token+'&client_id='+req.body.client_id+'&client_secret='+req.body.client_secret+'&redirect_uri='+req.body.redirect_uri
-                      });
-  console.log(sr.getBody('utf8'));
-  response = JSON.parse(sr.getBody('utf8'));
-  
-  response.access_token = response.access_token + " " + response.instance_url;
-  response.expires_in = 5400;
-
-  res.jsonp(response);
-});
+sfdc_amazon.addRoutes(app);
 
 var server = app.listen(port, function () {
 
@@ -398,6 +382,20 @@ var server = app.listen(port, function () {
   });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
