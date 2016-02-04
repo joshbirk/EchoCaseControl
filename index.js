@@ -20,6 +20,8 @@ var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
 
 var org = nforce.createConnection({
+  clientId: '3MVG98SW_UPr.JFgvKybAL6TSV3wyJWVo.NFAtcge.7yppmiBdm60S_c6ab9dUonJR4eIFvQEyEatxUGEUp66',
+  clientSecret: '1991862460972103310',
   apiVersion: 'v32.0', 
   mode: 'single',
   plugins: ['chatter']
