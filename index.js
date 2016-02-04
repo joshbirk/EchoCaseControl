@@ -375,7 +375,7 @@ app.post('/echo', function (req, res) {
   }
 });
 
-sfdc_amazon.addRoutes(app);
+sfdc_amazon.addRoutes(app,5400,true);
 
 var server = app.listen(port, function () {
 
@@ -385,20 +385,6 @@ var server = app.listen(port, function () {
   });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
