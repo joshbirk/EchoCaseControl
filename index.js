@@ -293,7 +293,7 @@ AddPost chatter {missing info|post}
                       res.jsonp(err);
                      }});  
 
-                    send_alexa_response(res, 'Case Opened, '+records[0].get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                    send_alexa_response(res, 'Case Opened, '+result.records[0].get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                 }
             }
           });
