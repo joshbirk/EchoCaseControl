@@ -291,9 +291,13 @@ AddPost chatter {missing info|post}
                      if(err) {
                       console.log(err);
                       res.jsonp(err);
-                     }});  
+                     } else {
+                      send_alexa_response(res, 'Case Opened, '+result.records[0].get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+result.records[0].get("subject"), true);
+                
+                     }
 
-                    send_alexa_response(res, 'Case Opened, '+result.records[0].get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                   });  
+
                 }
             }
           });
