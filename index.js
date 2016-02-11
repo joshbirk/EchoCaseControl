@@ -12,9 +12,10 @@ var sfdc_amazon = require('sfdc-oauth-amazon-express');
 
 var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
-/* need to convert this to multi-user */
+/* need to convert this to multi-user
 var current_cases = [];
 var current_case = {};
+ */
 
 var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
@@ -111,9 +112,9 @@ AddPost chatter {missing info|post}
           }
 
           current_case.set("CloseMe__c",false);
-          current_case.set("OpenMe__c",false);
+      /*    current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
               console.log('update sent');
           });
@@ -139,10 +140,10 @@ AddPost chatter {missing info|post}
                     
       } else { 
           
-          current_case.set("OpenMe__c",false);
+       /*   current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
@@ -163,10 +164,10 @@ AddPost chatter {missing info|post}
       } else { 
           
           current_case.set("Status","Closed");
-          current_case.set("OpenMe__c",false);
+    /*      current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
@@ -186,10 +187,10 @@ AddPost chatter {missing info|post}
                     
       } else { 
           
-          current_case.set("CloseMe__c",false);
+      /*    current_case.set("CloseMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
           org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
@@ -273,7 +274,7 @@ AddPost chatter {missing info|post}
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Open Case', 'No cases found.', true);
 
                 } else {
-                    current_case = result.records[0];
+                /*    current_case = result.records[0];
                     console.log(current_case);
                     current_case.set("CloseMe__c",false);
                     current_case.set("UpdateMe__c",false);
@@ -281,8 +282,17 @@ AddPost chatter {missing info|post}
                     current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
                     org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                       console.log('open sent');
-                    });
-                    send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
+                    }); */
+                    var rc = nforce.createSObject('Remote_Control__c');
+                    rc.set('ObjectId__c',result.records[0].get('id');
+                    rc.set('Action__c','Open');
+                    org.create({ sobject: rc, oauth: oauth},function(err,resp){
+                     if(err) {
+                      console.log(err);
+                      res.jsonp(err);
+                     }});  
+
+                    send_alexa_response(res, 'Case Opened, '+records[0].get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
                 }
             }
           });
@@ -293,48 +303,38 @@ AddPost chatter {missing info|post}
    }
 
    else if(alexa.intentName == 'GetLatestCases') {
-      current_cases = [];
+      var current_cases = [];
       org.query({ query: 'SELECT ID, Subject, Priority,  Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate DESC LIMIT 5', oauth: oauth }, 
         function(err, result){
             if(err) {
               console.log(err);
               res.jsonp(err);
-              //send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
             }
             else {
-            //    console.log(result.records);
                 if(result.records.length == 0) {
 
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Get Latest Cases', 'No cases found.', true);
 
                 } else {
-                    current_cases = result.records;
                     var speech = 'Here are your latest cases. ';
                     for(var i = 0; i < result.records.length; i++) {
+                      current_cases[i] = result.records[i].get('id');
                       speech += 'Case Number ';
                       speech += i+1;
                       speech += '. .';
-                      speech += result.records[i]._fields.subject;
+                      speech += result.records[i].get('subject');
                       speech += '. .';
                       if(i != result.records.length-1) {speech += 'Next case,'};
                     }
                     var cycles = i;
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
-             /*       var sr = sync_request('POST', 'https://api.lifx.com/v1beta1/lights/all/effects/breathe',
-                      {
-                        headers: {'Authorization':'Bearer cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e'},
-                        body: JSON.stringify({
-                                  "color": "kelvin:2500 brightness:0.25",
-                                  "from_color": "kelvin:9000 brightness:1.0",
-                                  "period": 5,
-                                  "cycles": 5,
-                                  "persist": false,
-                                  "power_on": true
-                              })
-                      });
-                    console.log(sr.getBody()); */
-                    
-                      
+                    var rc = nforce.createSObject('Remote_Control__c');
+                    rc.set('Search_Results__c',current_cases.join(','));
+                    org.create({ sobject: rc, oauth: oauth},function(err,resp){
+                     if(err) {
+                      console.log(err);
+                      res.jsonp(err);
+                     }});
               }
           }
       });
@@ -385,9 +385,6 @@ var server = app.listen(port, function () {
   });
 
 });
-
-
-
 
 
 function randomString(length, chars) {
