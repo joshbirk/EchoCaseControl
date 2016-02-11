@@ -264,7 +264,7 @@ AddPost chatter {missing info|post}
                     send_alexa_response(res, 'No cases were found', 'Salesforce', 'Open Case', 'No cases found.', true);
 
                 } else {
-                    var caseId = result.records[0].Search_Results__c.split(',')[number-1];
+                    var caseId = result.records[0].get('Search_Results__c').split(',')[number-1];
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('ObjectId__c',caseId);
                     rc.set('Action__c','Open');
