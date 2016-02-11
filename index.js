@@ -79,7 +79,8 @@ function route_alexa_intent(req, res) {
    
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
-
+   console.log(req.body.session.userId);
+   
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
       
