@@ -76,7 +76,6 @@ function route_alexa_intent(req, res) {
    }
 
    oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-   console.log(auth);
    
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
