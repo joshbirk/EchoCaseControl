@@ -286,7 +286,7 @@ AddPost chatter {missing info|post}
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('ObjectId__c',result.records[0].get('id'));
                     rc.set('Action__c','Open');
-                    org.create({ sobject: rc, oauth: oauth},function(err,resp){
+                    org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
                       res.jsonp(err);
@@ -330,7 +330,7 @@ AddPost chatter {missing info|post}
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('Search_Results__c',current_cases.join(','));
-                    org.create({ sobject: rc, oauth: oauth},function(err,resp){
+                    org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
                       res.jsonp(err);
