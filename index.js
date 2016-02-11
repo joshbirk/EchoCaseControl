@@ -284,7 +284,7 @@ AddPost chatter {missing info|post}
                       console.log('open sent');
                     }); */
                     var rc = nforce.createSObject('Remote_Control__c');
-                    rc.set('ObjectId__c',result.records[0].get('id');
+                    rc.set('ObjectId__c',result.records[0].get('id'));
                     rc.set('Action__c','Open');
                     org.create({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
