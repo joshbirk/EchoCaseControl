@@ -76,8 +76,8 @@ function route_alexa_intent(req, res) {
    }
 
    oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
+   console.log(auth);
    
-//   console.log(auth);
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
 
@@ -253,6 +253,7 @@ AddPost chatter {missing info|post}
       var current_cases = [];
       
       if(number in current_cases) {
+      /*
           current_case = current_cases[number];
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
           current_case.set("CloseMe__c",false);
@@ -262,9 +263,9 @@ AddPost chatter {missing info|post}
                       console.log('open sent');
                     });
           send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
-                    
+      */              
       } else  { //this is a specific Case number
-          org.query({ query: 'SELECT ID, Subject, Priority, Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: org.oauth }, 
+          org.query({ query: 'SELECT ID, Subject, Priority, Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: oauth }, 
           function(err, result){
             if(err) {
               console.log(err);
