@@ -251,18 +251,36 @@ AddPost chatter {missing info|post}
       var number = alexa.slots.number.value;
       var current_cases = [];
       
-      if(number in current_cases) {
-      /*
-          current_case = current_cases[number];
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          current_case.set("CloseMe__c",false);
-          current_case.set("UpdateMe__c",false);
-          current_case.set("OpenMe__c",true);
-          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
-                      console.log('open sent');
-                    });
-          send_alexa_response(res, 'Case Opened, '+current_case.get("subject"), 'Salesforce', 'Opening Case', 'Case Opened, '+current_case._fields.subject, true);
-      */              
+      if(ParseInt(number) >= 0 && ParseInt(number) <= 5) {
+        org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.userId+'\'', oauth: oauth }, 
+          function(err, result){
+            if(err) {
+              console.log(err);
+              send_alexa_response(res, 'An error occurred on that search', 'Salesforce', 'Get Latest Cases', 'Error: check logs', true);
+            } else {
+               if(result.records.length == 0) {
+
+                    send_alexa_response(res, 'No cases were found', 'Salesforce', 'Open Case', 'No cases found.', true);
+
+                } else {
+                    var caseId = result.records[0].Search_Results__c.split(',')[number-1];
+                    var rc = nforce.createSObject('Remote_Control__c');
+                    rc.set('ObjectId__c',caseId);
+                    rc.set('Action__c','Open');
+                    org.insert({ sobject: rc, oauth: oauth},function(err,resp){
+                     if(err) {
+                      console.log(err);
+                      res.jsonp(err);
+                     } else {
+                      send_alexa_response(res, 'Case Opened, '+caseId, 'Salesforce', 'Opening Case', 'Case Opened, '+caseId, true);
+                
+                     }
+
+                   });  
+
+                }
+            }
+          });              
       } else  { //this is a specific Case number
           org.query({ query: 'SELECT ID, Subject, Priority, Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case WHERE CaseNumber = \''+number+'\'', oauth: oauth }, 
           function(err, result){
@@ -335,6 +353,7 @@ AddPost chatter {missing info|post}
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('Search_Results__c',current_cases.join(','));
+                    rc.set('Echo_User__c',req.body.session.userId);
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
