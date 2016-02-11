@@ -251,7 +251,7 @@ AddPost chatter {missing info|post}
       var number = alexa.slots.number.value;
       var current_cases = [];
       
-      if(ParseInt(number) >= 0 && ParseInt(number) <= 5) {
+      if(number.toString().length < 3) {
         org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.userId+'\'', oauth: oauth }, 
           function(err, result){
             if(err) {
