@@ -250,7 +250,8 @@ AddPost chatter {missing info|post}
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    } else if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
-      number = number - 1;
+      var current_cases = [];
+      
       if(number in current_cases) {
           current_case = current_cases[number];
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
