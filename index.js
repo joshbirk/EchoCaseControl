@@ -80,7 +80,7 @@ function route_alexa_intent(req, res) {
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
    console.log(req.body.session.userId);
-   
+
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
       
@@ -253,7 +253,7 @@ AddPost chatter {missing info|post}
       var current_cases = [];
       
       if(number.toString().length < 3) {
-        org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.userId+'\'', oauth: oauth }, 
+        org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.user.userId+'\'', oauth: oauth }, 
           function(err, result){
             if(err) {
               console.log(err);
@@ -354,7 +354,7 @@ AddPost chatter {missing info|post}
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('Search_Results__c',current_cases.join(','));
-                    rc.set('Echo_User__c',req.body.session.userId);
+                    rc.set('Echo_User__c',req.body.session.user.userId);
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
