@@ -326,7 +326,6 @@ AddPost chatter {missing info|post}
    }
 
    else if(alexa.intentName == 'GetLatestCases') {
-      var current_cases = [];
       org.query({ query: 'SELECT ID, Subject, Priority,  Status, OpenMe__c, UpdateMe__c, CloseMe__c FROM Case ORDER BY CreatedDate DESC LIMIT 5', oauth: oauth }, 
         function(err, result){
             if(err) {
