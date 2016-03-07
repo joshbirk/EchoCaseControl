@@ -75,7 +75,7 @@ function route_alexa_intent(req, res) {
    oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
    sessionId = req.body.session.sessionId;
    alexa.intentRequest(req.body);
-   console.log(alexa.intentName);
+   console.log("INTENT>>>"+alexa.intentName);
    console.log(req.body.session.userId);
 
    if(alexa.intentName == 'AddPost') {
