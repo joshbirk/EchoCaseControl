@@ -266,9 +266,9 @@ AddPost chatter {missing info|post}
                     rc.set('ObjectId__c',caseId);
                     rc.set('Action__c','Open');
                     
-                    var case = nforce.createSObject('Case');
-                    case.set('Id',caseId);
-                    current_cases[sessionId] = case;
+                    var current_case = nforce.createSObject('Case');
+                    current_case.set('Id',caseId);
+                    current_cases[sessionId] = current_case;
 
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
