@@ -116,7 +116,7 @@ AddPost chatter {missing info|post}
               console.log('update sent');
           });
 
-          org.chatter.postFeedItem({id: current_cases[sessionId].get('Id'), text: post}, function(err, resp) {
+          org.chatter.postFeedItem({id: current_cases[sessionId].get('Id'), text: post, oauth: oauth}, function(err, resp) {
               if(err) {
                 console.log(err);
                 res.jsonp(err);
@@ -176,7 +176,7 @@ AddPost chatter {missing info|post}
                   
       } 
 
-   }  else if(alexa.intentName == 'GetCurrentCase') {
+/*   }  else if(alexa.intentName == 'GetCurrentCase') {
       
       if(current_cases[sessionId]._fields == null) {
           
@@ -184,10 +184,10 @@ AddPost chatter {missing info|post}
                     
       } else { 
           
-      /*    current_case.set("CloseMe__c",false);
+          current_case.set("CloseMe__c",false);
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
-          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
+          current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); 
           org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
@@ -197,7 +197,7 @@ AddPost chatter {missing info|post}
                 }
           });
                   
-      } 
+      } */
 
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    } else if(alexa.intentName == 'UpdateCase') {
