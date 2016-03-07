@@ -108,7 +108,7 @@ AddPost chatter {missing info|post}
             post = 'This case is incomplete, we need more information';
           }
 
-          current_case.set("CloseMe__c",false);
+      /*    current_case.set("CloseMe__c",false);
       /*    current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
@@ -116,7 +116,7 @@ AddPost chatter {missing info|post}
               console.log('update sent');
           });
 
-          org.chatter.postFeedItem({id: current_case.get('Id'), text: post}, function(err, resp) {
+          org.chatter.postFeedItem({id: current_cases[sessionId].get('Id'), text: post}, function(err, resp) {
               if(err) {
                 console.log(err);
                 res.jsonp(err);
@@ -203,7 +203,7 @@ AddPost chatter {missing info|post}
    } else if(alexa.intentName == 'UpdateCase') {
       var update = alexa.slots.update.value;
       update = update.charAt(0).toUpperCase() + update.slice(1);
-      console.log(update);
+      console.log("UPDATE>>>>> "+update);
 
       if(current_cases[sessionId]._fields == null) {
           
