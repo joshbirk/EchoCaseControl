@@ -349,7 +349,7 @@ AddPost chatter {missing info|post}
                       if(i != result.records.length-1) {speech += 'Next case,'};
                     }
                     var cycles = i;
-                    send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', true);
+                    send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', false);
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('Search_Results__c',current_cases.join(','));
                     rc.set('Echo_User__c',req.body.session.user.userId);
@@ -362,7 +362,7 @@ AddPost chatter {missing info|post}
           }
       });
    } else {
-      send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', true)
+      send_alexa_response(res, 'I did not understand that.', 'Salesforce', 'Error', 'No intent found', false)
    }
    
 };
