@@ -12,7 +12,7 @@ var sfdc_amazon = require('sfdc-oauth-amazon-express');
 
 //var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
-var current_cases = [];
+var current_cases = new Array();
 
 var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
@@ -76,7 +76,7 @@ function route_alexa_intent(req, res) {
    sessionId = req.body.session.sessionId;
    alexa.intentRequest(req.body);
    console.log("INTENT>>>"+alexa.intentName);
-   console.log(req.body.session.userId);
+   console.log("USERID>>>>"+req.body.session.userId);
 
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
