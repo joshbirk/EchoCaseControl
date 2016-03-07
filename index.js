@@ -73,10 +73,10 @@ function route_alexa_intent(req, res) {
    }
 
    oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-   sessionId = req.body.session.sessionId;
+   sessionId = req.body.session.user.userId;
    alexa.intentRequest(req.body);
    console.log("INTENT>>>"+alexa.intentName);
-   console.log("USERID>>>>"+req.body.session.userId);
+   console.log("USERID>>>>"+req.body.session.user.userId);
 
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
@@ -217,6 +217,7 @@ AddPost chatter {missing info|post}
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
       */    
           if(update == 'Hi') { update = 'High'; } //really, Alexa?
+          if(update == 'Close') { update = 'Closed'; } //really, Alexa?
 
           if(update == 'Low' || update == 'Medium' || update == 'High') {
               current_cases[sessionId].set("Priority",update);
@@ -247,7 +248,6 @@ AddPost chatter {missing info|post}
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    } else if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
-      current_cases[sessionId] = null;
       
       if(number.toString().length < 3) {
         org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.user.userId+'\'', oauth: oauth }, 
@@ -372,7 +372,7 @@ AddPost chatter {missing info|post}
 };
 
 function send_alexa_response(res, speech, title, subtitle, content, endSession) {
-    if (endSession) {current_cases[sessionId] = null;}
+//    if (endSession) {current_cases[sessionId] = null;}
 
     alexa.response(speech, 
            {
