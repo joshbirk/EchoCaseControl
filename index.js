@@ -265,7 +265,11 @@ AddPost chatter {missing info|post}
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('ObjectId__c',caseId);
                     rc.set('Action__c','Open');
-                    current_cases[sessionId] = result.records[0];
+                    
+                    var case = nforce.createSObject('Case');
+                    case.set('Id',caseId);
+                    current_cases[sessionId] = case;
+
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
