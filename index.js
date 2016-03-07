@@ -12,10 +12,7 @@ var sfdc_amazon = require('sfdc-oauth-amazon-express');
 
 var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
-/* need to convert this to multi-user
 var current_cases = [];
-var current_case = {};
- */
 
 var nforce = require('nforce'),
     chatter =require('nforce-chatter')(nforce);
@@ -76,7 +73,7 @@ function route_alexa_intent(req, res) {
    }
 
    oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-   
+   sessionId = req.body.session.sessionId;
    alexa.intentRequest(req.body);
    console.log(alexa.intentName);
    console.log(req.body.session.userId);
@@ -84,9 +81,9 @@ function route_alexa_intent(req, res) {
    if(alexa.intentName == 'AddPost') {
       var post = alexa.slots.post.value;
       
-      if(current_case._fields == null) {
+      if(current_cases[sessionId]._fields == null) {
           
-          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
       } else  { 
           /*
@@ -115,7 +112,7 @@ AddPost chatter {missing info|post}
       /*    current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
-          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
+          org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
               console.log('update sent');
           });
 
@@ -125,7 +122,7 @@ AddPost chatter {missing info|post}
                 res.jsonp(err);
               //  send_alexa_response(res, 'An error occurred on the post', 'Salesforce', 'Post to Chatter', 'Error: '+err, true);
               } else {
-                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, true);
+                  send_alexa_response(res, 'Posted to Chatter', 'Salesforce', 'Post to Chatter', 'Posted to Chatter: '+post, false);
               
               }
           });
@@ -134,9 +131,9 @@ AddPost chatter {missing info|post}
 
    } else if(alexa.intentName == 'HoldCase') {
       
-      if(current_case._fields == null) {
+      if(current_cases[sessionId]._fields == null) {
           
-          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
       } else { 
           
@@ -144,12 +141,12 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("CloseMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
-          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
+          org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
                 res.jsonp(err);
                } else {
-                send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', true);
+                send_alexa_response(res, 'Case held', 'Salesforce', 'Case Held', 'This just closes the browser, tbh', false);
               }
           });
                   
@@ -157,9 +154,9 @@ AddPost chatter {missing info|post}
 
    } else if(alexa.intentName == 'CompleteCase') {
       
-      if(current_case._fields == null) {
+      if(current_cases[sessionId]._fields == null) {
           
-          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
       } else { 
           
@@ -173,7 +170,7 @@ AddPost chatter {missing info|post}
                 console.log(err);
                 res.jsonp(err);
                } else {
-                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', true);
+                send_alexa_response(res, 'Case set to closed and completed', 'Salesforce', 'Status Change', 'Status set to closed', false);
                }
           });
                   
@@ -181,9 +178,9 @@ AddPost chatter {missing info|post}
 
    }  else if(alexa.intentName == 'GetCurrentCase') {
       
-      if(current_case._fields == null) {
+      if(current_cases[sessionId]._fields == null) {
           
-          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
       } else { 
           
@@ -191,12 +188,12 @@ AddPost chatter {missing info|post}
           current_case.set("UpdateMe__c",false);
           current_case.set("OpenMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')); */
-          org.update({ sobject: current_case, oauth: oauth},function(err,resp){
+          org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
                 res.jsonp(err);
                } else {
-                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', true);
+                send_alexa_response(res, 'Opening current case', 'Salesforce', 'Case Openes', 'This just opens the browser, tbh', false);
                 }
           });
                   
@@ -208,39 +205,39 @@ AddPost chatter {missing info|post}
       update = update.charAt(0).toUpperCase() + update.slice(1);
       console.log(update);
 
-      if(current_case._fields == null) {
+      if(sessionId == null || current_cases[current_cases[sessionId] == null || current_cases[sessionId]._fields == null) {
           
-          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', true);
+          send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
       } else  { 
-          
+      /*    
           current_case.set("CloseMe__c",false);
           current_case.set("OpenMe__c",false);
           current_case.set("UpdateMe__c",true);
           current_case.set("Nonce__c",randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
-          
+      */    
           if(update == 'Hi') { update = 'High'; } //really, Alexa?
 
           if(update == 'Low' || update == 'Medium' || update == 'High') {
-              current_case.set("Priority",update);
-              org.update({ sobject: current_case, oauth: oauth},function(err,resp){
+              current_cases[sessionId].set("Priority",update);
+              org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
                 res.jsonp(err);
                } else {
-                send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, true);
+                send_alexa_response(res, 'Priority set to '+update, 'Salesforce', 'Priority Change', 'Priority set to'+update, false);
                }
                });
           }  
 
           if(update == 'Closed' || update == 'New' || update == 'Working') {
-              current_case.set("Status",update);
+              current_cases[sessionId].set("Status",update);
               org.update({ sobject: current_case, oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
                 res.jsonp(err);
                } else {
-                send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, true);
+                send_alexa_response(res, 'Status set to '+update, 'Salesforce', 'Status Change', 'Status set to'+update, false);
                }
                });
           } 
@@ -250,7 +247,7 @@ AddPost chatter {missing info|post}
    //   send_alexa_response(res, 'Opening case number '+number, 'Salesforce', 'Case open attempt', 'Opening case number '+number, true);
    } else if(alexa.intentName == 'OpenCase') {
       var number = alexa.slots.number.value;
-      var current_cases = [];
+      current_cases[sessionId] = null;
       
       if(number.toString().length < 3) {
         org.query({ query: 'SELECT ID, OwnerId, Search_Results__c, ObjectId__c FROM Remote_Control__c WHERE Echo_User__c = \''+req.body.session.user.userId+'\'', oauth: oauth }, 
@@ -268,12 +265,13 @@ AddPost chatter {missing info|post}
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('ObjectId__c',caseId);
                     rc.set('Action__c','Open');
+                    current_cases[sessionId] = result.records[0];
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
                       res.jsonp(err);
                      } else {
-                      send_alexa_response(res, 'Case Opened, '+caseId, 'Salesforce', 'Opening Case', 'Case Opened, '+caseId, true);
+                      send_alexa_response(res, 'Case Opened, '+caseId, 'Salesforce', 'Opening Case', 'Case Opened, '+caseId, false);
                 
                      }
 
@@ -306,6 +304,7 @@ AddPost chatter {missing info|post}
                     var rc = nforce.createSObject('Remote_Control__c');
                     rc.set('ObjectId__c',result.records[0].get('id'));
                     rc.set('Action__c','Open');
+                    current_cases[sessionId] = caseId;
                     org.insert({ sobject: rc, oauth: oauth},function(err,resp){
                      if(err) {
                       console.log(err);
@@ -370,6 +369,8 @@ AddPost chatter {missing info|post}
 };
 
 function send_alexa_response(res, speech, title, subtitle, content, endSession) {
+    if (endSession) {current_cases[sessionId] = null;}
+
     alexa.response(speech, 
            {
             title: title,
