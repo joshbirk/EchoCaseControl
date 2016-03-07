@@ -231,9 +231,9 @@ AddPost chatter {missing info|post}
                });
           }  
 
-          if(update == 'Closed' || update == 'New' || update == 'Working') {
+          if(update == 'Closed' || update == 'New' || update == 'Working' || update == 'Open') {
               current_cases[sessionId].set("Status",update);
-              org.update({ sobject: current_case, oauth: oauth},function(err,resp){
+              org.update({ sobject: current_cases[sessionId], oauth: oauth},function(err,resp){
                if(err) {
                 console.log(err);
                 res.jsonp(err);
