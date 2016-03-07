@@ -10,7 +10,7 @@ app.use(bodyParser());
 var sync_request = require('sync-request');
 var sfdc_amazon = require('sfdc-oauth-amazon-express');
 
-var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
+//var LIFX_token = 'cb8c8dbb2b50db8e9518f6a767647793673aeb24f642051c642b00a630afba4e';
 
 var current_cases = [];
 
@@ -205,7 +205,7 @@ AddPost chatter {missing info|post}
       update = update.charAt(0).toUpperCase() + update.slice(1);
       console.log(update);
 
-      if(sessionId == null || current_cases[current_cases[sessionId] == null || current_cases[sessionId]._fields == null) {
+      if(current_cases[sessionId]._fields == null) {
           
           send_alexa_response(res, 'No case currently opened', 'Salesforce', 'Post to Chatter', 'Error: no current case', false);
                     
