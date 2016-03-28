@@ -59,6 +59,7 @@ sfdc_amazon.addRoutes(app,oauth_timeout,true);
 
 var intent_functions = new Array();
 intent_functions['GetLatestCases'] = GetLatestCases;
+intent_functions['OpenCase'] = OpenCase;
 
 
 /* Handle valid Echo requests from Salesforce */
@@ -90,34 +91,15 @@ function route_alexa_intent(req, res) {
 
    if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
         send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
+   } else {
+   	   intent = new alexa.intentRequest(req.body);
+	   intent.oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
+	   console.log("INTENT>>>"+alexa.intentName);
+	   console.log("USERID>>>>"+req.body.session.user.userId);
+
+	   intent_function = intent_functions[intent.intentName];
+	   intent_function(req,res,intent,result.records);
    }
-
-   intent = new alexa.intentRequest(req.body);
-   intent.oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-   console.log("INTENT>>>"+alexa.intentName);
-   console.log("USERID>>>>"+req.body.session.user.userId);
-
-   /* Check for existing cases opened by Echo */
-
-   org.query({ query: 'SELECT ID, Case__r.Id, Case__r.Subject, Case__r.Status, Case__r.Priority from Echo_Case_Result__c', oauth: oauth},
-        function(err, result){
-            if(err) {
-              console.log(err);
-              send_alexa_error('An error occured checking for recents cases: '+err);
-            }
-            else {
-                if(result.records.length == 0) {
-
-                    GetLatestCases(req,res,null,null,true); //no current cases available, go ahead and get some
-
-                }  else {
-
-                	intent_function = intent_functions[intent.intentName];
-                	intent_function(req,res,intent,result.records);
-
-                }
-
-
 
 }
 
