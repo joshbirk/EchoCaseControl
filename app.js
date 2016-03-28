@@ -60,47 +60,52 @@ sfdc_amazon.addRoutes(app,oauth_timeout,true);
 var intent_functions = new Array();
 intent_functions['GetLatestCases'] = GetLatestCases;
 intent_functions['OpenCase'] = OpenCase;
+intent_functions['UpdateCase'] = UpdateCase;
 
+function updateCase(req,res,intent) {
+	var update = alexa.slots.update.value;
+    update = update.charAt(0).toUpperCase() + update.slice(1);
+    console.log("UPDATE REQUEST>>>>> "+update);
 
-/* Handle valid Echo requests from Salesforce */
+    if(update == 'Hi') { update = 'High'; } //really, Alexa?
+    if(update == 'Close') { update = 'Closed'; } //really, Alexa?
 
-/* START CONNECTION TO SALESFORCE.
+    if(update == 'Low' || update == 'Medium' || update == 'High') {
+            org.apexRest({oauth:intent.oauth, uri:'EchoCaseControl',method:'POST',body:'{"priority":"'+update+'"}'},
+            	function(err,result) {
+					if(err) {
+		              console.log(err);
+		              send_alexa_error(res,'An error occured updating this case: '+err);
+		            }
+		            else {
+		            	var speech = 'Updated Case with a priority of '+update;
+		            	send_alexa_response(res, speech, 'Salesforce', 'Updated Case', 'Success', false);
+		            }
 
-1. Check for existing session.  If not found, prompt to complete OAuth in the app
-2. Check for existing query and/or current case from Search Results object.
+				});
+	  
+     }  
 
-*/
+    else if(update == 'Closed' || update == 'New' || update == 'Working' || update == 'Open') {
+              org.apexRest({oauth:intent.oauth, uri:'EchoCaseControl',method:'POST',body:'{"status":"'+update+'"}'},
+            	function(err,result) {
+					if(err) {
+		              console.log(err);
+		              send_alexa_error(res,'An error occured updating this case: '+err);
+		            }
+		            else {
+		            	var speech = 'Updated Case with a status of '+update;
+		            	send_alexa_response(res, speech, 'Salesforce', 'Updated Case', 'Success', false);
+		            }
 
-function route_alexa_begin(req, res) {
-   
-   alexa.launchRequest(req.body);
-   if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
-        send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
-   } else {
-   		send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
-   }
-   
-   console.log('!----REQUEST SESSION--------!');
-   console.log(req.body.session);
-   
+				});
+     } 
 
-};
+     else {
 
+     	send_alexa_response(res, 'The update request did not hold a valid priority or update', 'Salesforce', 'Updated Case', 'Failed', false);
 
-function route_alexa_intent(req, res) {
-
-   if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
-        send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
-   } else {
-   	   intent = new alexa.intentRequest(req.body);
-	   intent.oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-	   console.log("INTENT>>>"+intent.intentName);
-	   console.log("USERID>>>>"+req.body.session.user.userId);
-
-	   intent_function = intent_functions[intent.intentName];
-	   intent_function(req,res,intent);
-   }
-
+     }
 }
 
 function OpenCase(req,res,intent) {
@@ -178,4 +183,37 @@ function send_alexa_response(res, speech, title, subtitle, content, endSession) 
            }
            return res.jsonp(response);
          });
+}
+
+
+function route_alexa_begin(req, res) {
+   
+   alexa.launchRequest(req.body);
+   if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
+        send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
+   } else {
+   		send_alexa_response(res, 'Connected to Salesforce',  'Salesforce', 'Connection Attempt', 'Logged In (Single User)', false);
+   }
+   
+   console.log('!----REQUEST SESSION--------!');
+   console.log(req.body.session);
+   
+
+};
+
+
+function route_alexa_intent(req, res) {
+
+   if(req.body.session == null || req.body.session.user == null || req.body.session.user.accessToken == null) {
+        send_alexa_response(res, 'Please log into Salesforce', 'Salesforce', 'Not Logged In', 'Error: Not Logged In', true);
+   } else {
+   	   intent = new alexa.intentRequest(req.body);
+	   intent.oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
+	   console.log("INTENT>>>"+intent.intentName);
+	   console.log("USERID>>>>"+req.body.session.user.userId);
+
+	   intent_function = intent_functions[intent.intentName];
+	   intent_function(req,res,intent);
+   }
+
 }
