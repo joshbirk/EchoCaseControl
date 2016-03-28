@@ -114,7 +114,7 @@ function OpenCase(req,res,intent) {
               send_alexa_error(res,'An error occured checking for recents cases: '+err);
             }
             else {
-            	var speech = 'Opened Case '+result.get('Subject__c');
+            	var speech = 'Opened Case '+result.Subject__c;
             	send_alexa_response(res, speech, 'Salesforce', 'Open Case', 'Success', false);
             }
 
