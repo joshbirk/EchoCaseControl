@@ -107,7 +107,7 @@ function OpenCase(req,res,intent) {
 	var number = intent.slots.number.value;
 	number = number.toString();
 	console.log("CASE IDENTIFIER>>>>>"+number);
-    org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch',method:'POST',body:{"CaseIdentifier":number}},
+    org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch',method:'POST',body:'{"CaseIdentifier":"'+number+'"}'},
 		function(err,result) {
 			if(err) {
               console.log(err);
