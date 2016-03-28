@@ -103,7 +103,7 @@ function route_alexa_intent(req, res) {
 
 }
 
-function OpenCase(req,res,intent,cases) {
+function OpenCase(req,res,intent) {
 	var number = intent.slots.number.value-1;
     org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch',method:'POST',body:{CaseIdentifier:number}},
 		function(err,result) {
@@ -120,7 +120,7 @@ function OpenCase(req,res,intent,cases) {
 }
 
 
-function GetLatestCases(req,res,intent,cases,no_previous_cases) {
+function GetLatestCases(req,res,intent) {
 	org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch'},
 		function(err,result) {
 			if(err) {
@@ -128,6 +128,7 @@ function GetLatestCases(req,res,intent,cases,no_previous_cases) {
               send_alexa_error(res,'An error occured checking for recents cases: '+err);
             }
             else {
+            	var speech = "Here are your latest cases. ";
             	for(var i = 0; i < result.length; i++) {
                       speech += 'Case Number ';
                       speech += i+1;
