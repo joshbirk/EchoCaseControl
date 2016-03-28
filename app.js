@@ -94,11 +94,11 @@ function route_alexa_intent(req, res) {
    } else {
    	   intent = new alexa.intentRequest(req.body);
 	   intent.oauth = sfdc_amazon.splitToken(req.body.session.user.accessToken);
-	   console.log("INTENT>>>"+alexa.intentName);
+	   console.log("INTENT>>>"+intent.intentName);
 	   console.log("USERID>>>>"+req.body.session.user.userId);
 
 	   intent_function = intent_functions[intent.intentName];
-	   intent_function(req,res,intent,result.records);
+	   intent_function(req,res,intent);
    }
 
 }
