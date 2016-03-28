@@ -62,7 +62,7 @@ intent_functions['GetLatestCases'] = GetLatestCases;
 intent_functions['OpenCase'] = OpenCase;
 intent_functions['UpdateCase'] = UpdateCase;
 
-function updateCase(req,res,intent) {
+function UpdateCase(req,res,intent) {
 	var update = alexa.slots.update.value;
     update = update.charAt(0).toUpperCase() + update.slice(1);
     console.log("UPDATE REQUEST>>>>> "+update);
