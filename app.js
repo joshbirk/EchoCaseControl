@@ -105,11 +105,11 @@ function route_alexa_intent(req, res) {
 
 function OpenCase(req,res,intent,cases) {
 	var number = intent.slots.number.value-1;
-    org.apexRest({oauth:intent.oauth, uri:'/EchoCaseSearch',method:'POST',body:{CaseIdentifier:number}},
+    org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch',method:'POST',body:{CaseIdentifier:number}},
 		function(err,result) {
 			if(err) {
               console.log(err);
-              send_alexa_error('An error occured checking for recents cases: '+err);
+              send_alexa_error(res,'An error occured checking for recents cases: '+err);
             }
             else {
             	var speech = 'Opened Case '+result.get('Subject__c');
@@ -121,11 +121,11 @@ function OpenCase(req,res,intent,cases) {
 
 
 function GetLatestCases(req,res,intent,cases,no_previous_cases) {
-	org.apexRest({oauth:intent.oauth, uri:'/EchoCaseSearch'},
+	org.apexRest({oauth:intent.oauth, uri:'EchoCaseSearch'},
 		function(err,result) {
 			if(err) {
               console.log(err);
-              send_alexa_error('An error occured checking for recents cases: '+err);
+              send_alexa_error(res,'An error occured checking for recents cases: '+err);
             }
             else {
             	for(var i = 0; i < result.records.length; i++) {
@@ -157,7 +157,7 @@ var server = app.listen(port, function () {
 
 
 /* UTILIY FUNCTIONS */
-function send_alexa_error(message) {
+function send_alexa_error(res,message) {
 
 	send_alexa_response(res, 'An error occured during that request.  Please see the app log.', 'Salesforce', 'Error', message, true);
 
