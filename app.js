@@ -128,14 +128,13 @@ function GetLatestCases(req,res,intent,cases,no_previous_cases) {
               send_alexa_error(res,'An error occured checking for recents cases: '+err);
             }
             else {
-            	for(var i = 0; i < result.records.length; i++) {
-                      current_cases[i] = result.records[i].get('id');
+            	for(var i = 0; i < result.length; i++) {
                       speech += 'Case Number ';
                       speech += i+1;
                       speech += '. .';
-                      speech += result.records[i].get('subject');
+                      speech += result[i].Subject__c;
                       speech += '. .';
-                      if(i != result.records.length-1) {speech += 'Next case,'};
+                      if(i != result.length-1) {speech += 'Next case,'};
                     }
                     send_alexa_response(res, speech, 'Salesforce', 'Get Latest Cases', 'Success', false);
             }
