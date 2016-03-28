@@ -74,21 +74,19 @@ function GetCurrentCase(req,res,intent) {
             }
             else {
             	var speech = "Here is your currently opened case:";
-            	for(var i = 0; i < result.length; i++) {
-                      speech += 'Subject ';
-                      speech += '. .';
-                      speech += result.Subject;
-                      speech += '. .';
-                      speech += 'Priority ';
-                      speech += '. .';
-                      speech += result.Priority;
-                      speech += '. .';
-                      speech += 'Status ';
-                      speech += '. .';
-                      speech += result.Status;
-                      speech += '. .';
-                    }
-                    send_alexa_response(res, speech, 'Salesforce', 'Get Current Case', 'Success', false);
+	    	      speech += 'Subject ';
+	              speech += '. .';
+	              speech += result.Subject;
+	              speech += '. .';
+	              speech += 'Priority ';
+	              speech += '. .';
+	              speech += result.Priority;
+	              speech += '. .';
+	              speech += 'Status ';
+	              speech += '. .';
+	              speech += result.Status;
+	              speech += '. .';
+                 send_alexa_response(res, speech, 'Salesforce', 'Get Current Case', 'Success', false);
             }
 
 		});
