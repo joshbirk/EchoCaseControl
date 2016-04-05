@@ -1,8 +1,8 @@
 /* GLOBAL / PROCESS VARIABLES */
 var port = process.env.PORT || 8080;
-var clientId = process.env.clientId || '3MVG98SW_UPr.JFgvKybAL6TSV3wyJWVo.NFAtcge.7yppmiBdm60S_c6ab9dUonJR4eIFvQEyEatxUGEUp66';
-var clientSecret = process.env.clientSecret || '1991862460972103310';
-var redirectURI = process.env.redirectURI || 'https://heroku-echo-test.herokuapp.com/token';
+var clientId = process.env.clientId || '{PUBLICKEY}';
+var clientSecret = process.env.clientSecret || '{PRIVATEKEY}';
+var redirectURI = process.env.redirectURI || '{YOURHEROKUORLAMBDADOMAIN}/token';
 var API = process.env.API || 'v32.0';
 var oauth_timeout = process.env.oauth_timeout || 5400;
 var DEBUG_ON = process.env.DEBUG_ON || true;
@@ -18,8 +18,6 @@ var app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser());
 
-//sync REST requests to embed inside Alexa responses
-var sync_request = require('sync-request');
 
 //convert OAuth requests to/from Salesforce to Amazon
 var sfdc_amazon = require('sfdc-oauth-amazon-express');
