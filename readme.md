@@ -1,4 +1,5 @@
-==Echo Case Control==
+Echo Case Control
+=================
 
 This is a node.js application to be used with an Amazon Alexa Skill (for the Echo) to control Salesforce cases.
 
