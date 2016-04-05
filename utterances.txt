@@ -3,14 +3,6 @@ GetCurrentCase get current case
 GetCurrentCase get current
 GetCurrentCase get the current case
 
-CompleteCase complete case
-CompleteCase complete this case
-CompleteCase finish this case
-
-HoldCase hold case
-HoldCase hold this
-HoldCase hold
-
 GetLatestCases get my latest cases
 GetLatestCases get latest cases
 

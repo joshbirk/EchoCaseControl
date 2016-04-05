@@ -4,14 +4,6 @@
       "intent": "GetCurrentCase",
       "slots": []
     },
-   {
-      "intent": "CompleteCase",
-      "slots": []
-    },
-    {
-      "intent": "HoldCase",
-      "slots": []
-    },
     {
      "intent": "UpdateCase",
       "slots": [{
