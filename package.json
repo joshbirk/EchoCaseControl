@@ -10,7 +10,6 @@
     "express": "^4.13.1",
     "nforce": "^1.2.0",
     "nforce-chatter": "*",
-    "sync-request": "*",
     "sfdc-oauth-amazon-express": "*"
   }
 }
