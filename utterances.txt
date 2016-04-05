@@ -1,0 +1,52 @@
+GetCurrentCase open current case
+GetCurrentCase get current case
+GetCurrentCase get current
+GetCurrentCase get the current case
+
+CompleteCase complete case
+CompleteCase complete this case
+CompleteCase finish this case
+
+HoldCase hold case
+HoldCase hold this
+HoldCase hold
+
+GetLatestCases get my latest cases
+GetLatestCases get latest cases
+
+GetLatestCase get my latest case
+GetLatestCase get latest case
+GetLatestCase get case
+
+OpenCase open case {one|number}
+OpenCase open case {zero zero zero zero one zero zero zero|number}
+OpenCase open case {five|number}
+OpenCase open case {five two five three one zero four two|number}
+
+OpenCase open case number {one|number}
+OpenCase open case number  {zero zero zero zero one zero zero zero|number}
+OpenCase open case number  {five|number}
+OpenCase open case number  {five two five three one zero four two|number}
+
+AddPost chatter {follow up call|post}
+AddPost chatter {next meeting|post}
+AddPost chatter {cannot replicate|post}
+AddPost chatter {missing info|post}
+
+UpdateCase update case {low|update}
+UpdateCase update case to {low|update}
+
+UpdateCase update case {medium|update}
+UpdateCase update case to {medium|update}
+
+UpdateCase update case {high|update}
+UpdateCase update case to {high|update}
+
+UpdateCase update case {working|update}
+UpdateCase update case to {working|update}
+
+UpdateCase update case {new|update}
+UpdateCase update case to {new|update}
+
+UpdateCase update case {closed|update}
+UpdateCase update case to {closed|update}
