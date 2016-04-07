@@ -1,14 +1,5 @@
-GetCurrentCase open current case
-GetCurrentCase get current case
-GetCurrentCase get current
-GetCurrentCase get the current case
-
 GetLatestCases get my latest cases
 GetLatestCases get latest cases
-
-GetLatestCase get my latest case
-GetLatestCase get latest case
-GetLatestCase get case
 
 OpenCase open case {one|number}
 OpenCase open case {zero zero zero zero one zero zero zero|number}
