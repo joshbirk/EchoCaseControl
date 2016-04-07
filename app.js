@@ -1,8 +1,14 @@
 /* GLOBAL / PROCESS VARIABLES */
 var port = process.env.PORT || 8080;
+/*
 var clientId = process.env.clientId || '{PUBLICKEY}';
 var clientSecret = process.env.clientSecret || '{PRIVATEKEY}';
 var redirectURI = process.env.redirectURI || '{YOURHEROKUORLAMBDADOMAIN}/token';
+*/
+
+var clientId = '';
+var clientSecret = '';
+var redirectURI = '';
 var API = process.env.API || 'v32.0';
 var oauth_timeout = process.env.oauth_timeout || 5400;
 var DEBUG_ON = process.env.DEBUG_ON || true;
