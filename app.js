@@ -1,11 +1,5 @@
 /* GLOBAL / PROCESS VARIABLES */
 var port = process.env.PORT || 8080;
-/*
-var clientId = process.env.clientId || '{PUBLICKEY}';
-var clientSecret = process.env.clientSecret || '{PRIVATEKEY}';
-var redirectURI = process.env.redirectURI || '{YOURHEROKUORLAMBDADOMAIN}/token';
-*/
-
 var clientId = '';
 var clientSecret = '';
 var redirectURI = '';
@@ -63,11 +57,16 @@ sfdc_amazon.addRoutes(app,oauth_timeout,true);
 
 /* List of identifiable intent / actions that the route will respond to */
 var intent_functions = new Array();
+intent_functions['PleaseWait'] = PleaseWait;
 intent_functions['GetCurrentCase'] = GetCurrentCase;
 intent_functions['GetLatestCases'] = GetLatestCases;
 intent_functions['OpenCase'] = OpenCase;
 intent_functions['UpdateCase'] = UpdateCase;
 intent_functions['AddPost'] = AddPost;
+
+function PleaseWait(req,res,intent) {
+  send_alexa_response(res, 'Waiting', 'Salesforce', '...', 'Waiting', false);
+}
 
 function GetCurrentCase(req,res,intent) {
 	org.apexRest({oauth:intent.oauth, uri:'EchoCaseControl'},
@@ -144,7 +143,7 @@ function UpdateCase(req,res,intent) {
 	  
      }  
 
-    else if(update == 'Closed' || update == 'New' || update == 'Working' || update == 'Open') {
+    else if(update == 'Closed' || update == 'New' || update == 'Working' || update == 'Escalated') {
               org.apexRest({oauth:intent.oauth, uri:'EchoCaseControl',method:'POST',body:'{"status":"'+update+'"}'},
             	function(err,result) {
 					if(err) {
@@ -202,7 +201,7 @@ function AddPost(req,res,intent) {
 		            post = 'We need to follow up with the customer';
 		          }
 
-		          if(post == 'next') {
+		          if(post == 'next' || post == 'next meeting') {
 		            post = 'This needs to be prioritized at the next meeting';
 		          }
 
