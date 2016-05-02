@@ -1,3 +1,10 @@
+PleaseWait wait
+
+GetCurrentCase open current case
+GetCurrentCase open my case
+GetCurrentCase open case
+GetCurrentCase more information
+
 GetLatestCases get my latest cases
 GetLatestCases get latest cases
 
@@ -11,6 +18,7 @@ OpenCase open case number  {zero zero zero zero one zero zero zero|number}
 OpenCase open case number  {five|number}
 OpenCase open case number  {five two five three one zero four two|number}
 
+AddPost post to chatter {something random text|post}
 AddPost chatter {follow up call|post}
 AddPost chatter {next meeting|post}
 AddPost chatter {cannot replicate|post}
@@ -28,8 +36,23 @@ UpdateCase update case to {high|update}
 UpdateCase update case {working|update}
 UpdateCase update case to {working|update}
 
+UpdateCase update status {working|update}
+UpdateCase update status to {working|update}
+
 UpdateCase update case {new|update}
 UpdateCase update case to {new|update}
 
+UpdateCase update status {new|update}
+UpdateCase update status to {new|update}
+
 UpdateCase update case {closed|update}
 UpdateCase update case to {closed|update}
+
+UpdateCase update status {closed|update}
+UpdateCase update status to {closed|update}
+
+UpdateCase update case {closed|update}
+UpdateCase update case to {closed|update}
+
+UpdateCase update status {escalated|update}
+UpdateCase update status to {escalated|update}

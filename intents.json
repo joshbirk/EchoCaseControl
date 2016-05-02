@@ -1,6 +1,10 @@
 {
   "intents": [
     {
+      "intent": "GetCurrentCase",
+      "slots": []
+    },
+    {
      "intent": "UpdateCase",
       "slots": [{
           "name": "update",
@@ -21,6 +25,7 @@
     },{
       "intent": "GetLatestCases",
       "slots": []
+    },{
+     "intent": "PleaseWait",
+      "slots": []
     }
-  ]
-}
