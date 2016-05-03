@@ -1,6 +1,8 @@
 Echo Case Control
 =================
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BNGqgbQ2NmY" frameborder="0" allowfullscreen></iframe>
+
 This is a node.js application to be used with an Amazon Alexa Skill (for the Echo) to control Salesforce cases.
 
 I'm going to put this up on my personal blog for a while to get some brave beta testers and then probably mirror the content over at developer.salesforce.com.
