@@ -1,7 +1,7 @@
 Echo Case Control
 =================
 
-[![Echo Case Control Video](http://www.youtube.com/watch?v=pzCuRf7Bd8w)](http://www.youtube.com/watch?v=pzCuRf7Bd8w)
+[![Echo Case Control Video](https://i.ytimg.com/vi/pzCuRf7Bd8w/hqdefault.jpg](http://www.youtube.com/watch?v=pzCuRf7Bd8w)
 
 
 
